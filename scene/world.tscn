@@ -1,6 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://dnpx17rdvxadg"]
+[gd_scene load_steps=4 format=3 uid="uid://dnpx17rdvxadg"]
 
 [ext_resource type="Script" path="res://script/world.gd" id="1_l4pu8"]
+[ext_resource type="PackedScene" uid="uid://dk3mouuox7voi" path="res://scene/player.tscn" id="2_n1tnf"]
+[ext_resource type="PackedScene" uid="uid://sav6ct7i1o8a" path="res://scene/platform.tscn" id="3_ircqi"]
 
 [node name="world" type="Node2D"]
 script = ExtResource("1_l4pu8")
+
+[node name="Player" parent="." instance=ExtResource("2_n1tnf")]
+position = Vector2(113, 429)
+
+[node name="Platform4" parent="." instance=ExtResource("3_ircqi")]
+position = Vector2(771, 232)
+
+[node name="Platform3" parent="." instance=ExtResource("3_ircqi")]
+position = Vector2(84, 317)
+
+[node name="Platform2" parent="." instance=ExtResource("3_ircqi")]
+position = Vector2(1198, 392)
+
+[node name="Platform" parent="." instance=ExtResource("3_ircqi")]
