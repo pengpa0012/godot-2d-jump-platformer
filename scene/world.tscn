@@ -1,14 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://dnpx17rdvxadg"]
+[gd_scene load_steps=6 format=3 uid="uid://dnpx17rdvxadg"]
 
 [ext_resource type="Script" path="res://script/world.gd" id="1_l4pu8"]
 [ext_resource type="PackedScene" uid="uid://dk3mouuox7voi" path="res://scene/player.tscn" id="2_n1tnf"]
+[ext_resource type="Script" path="res://script/platforms.gd" id="3_bcljd"]
 [ext_resource type="PackedScene" uid="uid://sav6ct7i1o8a" path="res://scene/platform.tscn" id="3_ircqi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_naavg"]
+size = Vector2(1290.5, 215)
 
 [node name="world" type="Node2D"]
 script = ExtResource("1_l4pu8")
 
 [node name="Player" parent="." instance=ExtResource("2_n1tnf")]
-position = Vector2(113, 429)
+position = Vector2(46, 411)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -2)
@@ -16,22 +20,35 @@ limit_left = 0
 limit_right = 1152
 limit_bottom = 475
 
-[node name="Platform4" parent="." instance=ExtResource("3_ircqi")]
-position = Vector2(771, 232)
+[node name="Platforms" type="Node2D" parent="."]
+script = ExtResource("3_bcljd")
 
-[node name="Platform3" parent="." instance=ExtResource("3_ircqi")]
-position = Vector2(84, 317)
+[node name="8" parent="Platforms" instance=ExtResource("3_ircqi")]
+position = Vector2(1138, -89)
 
-[node name="Platform2" parent="." instance=ExtResource("3_ircqi")]
-position = Vector2(1198, 392)
+[node name="7" parent="Platforms" instance=ExtResource("3_ircqi")]
+position = Vector2(398, -170)
 
-[node name="Platform7" parent="." instance=ExtResource("3_ircqi")]
-position = Vector2(94, 0)
+[node name="6" parent="Platforms" instance=ExtResource("3_ircqi")]
+position = Vector2(734, -5)
 
-[node name="Platform6" parent="." instance=ExtResource("3_ircqi")]
-position = Vector2(823, 80)
+[node name="5" parent="Platforms" instance=ExtResource("3_ircqi")]
+position = Vector2(471, 68)
 
-[node name="Platform5" parent="." instance=ExtResource("3_ircqi")]
-position = Vector2(-252, 156)
+[node name="4" parent="Platforms" instance=ExtResource("3_ircqi")]
+position = Vector2(1111, 142)
 
-[node name="Platform" parent="." instance=ExtResource("3_ircqi")]
+[node name="3" parent="Platforms" instance=ExtResource("3_ircqi")]
+position = Vector2(500, 219)
+
+[node name="2" parent="Platforms" instance=ExtResource("3_ircqi")]
+position = Vector2(963, 296)
+
+[node name="1" parent="Platforms" instance=ExtResource("3_ircqi")]
+position = Vector2(343, 366)
+
+[node name="Ground" type="StaticBody2D" parent="Platforms"]
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Platforms/Ground"]
+position = Vector2(552, 546)
+shape = SubResource("RectangleShape2D_naavg")
