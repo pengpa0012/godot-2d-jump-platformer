@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -500.0
+var isAttacking = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var display_size = get_viewport().get_visible_rect().size
@@ -17,9 +18,11 @@ func _physics_process(delta):
 
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-
-	var direction = Input.get_axis("ui_left", "ui_right")
 	
+	if Input.is_action_just_pressed("attack"):
+		isAttacking = true
+	
+	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction:
 		if is_on_floor():
 			animatedSprite.play("Run")		
@@ -36,7 +39,13 @@ func _physics_process(delta):
 			self.position.x = display_size.x
 	else:
 		if is_on_floor():
-			animatedSprite.play("Idle")		
+			if isAttacking:
+				animatedSprite.play("Attack")		
+			else:
+				animatedSprite.play("Idle")		
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
 	move_and_slide()
+
+
+func _on_animated_sprite_2d_animation_finished():
+	isAttacking = false
