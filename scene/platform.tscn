@@ -1,10 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://sav6ct7i1o8a"]
+[gd_scene load_steps=3 format=3 uid="uid://sav6ct7i1o8a"]
+
+[ext_resource type="Script" path="res://script/platform.gd" id="1_sec10"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8qnft"]
 size = Vector2(1163, 20)
 
 [node name="Platform" type="StaticBody2D"]
 position = Vector2(573.5, 474)
+script = ExtResource("1_sec10")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 position = Vector2(-641.5, 0)
@@ -13,3 +16,7 @@ shape = SubResource("RectangleShape2D_8qnft")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(635.5, 0)
 shape = SubResource("RectangleShape2D_8qnft")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
