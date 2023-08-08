@@ -1,11 +1,11 @@
 [gd_scene load_steps=40 format=3 uid="uid://dk3mouuox7voi"]
 
 [ext_resource type="Script" path="res://script/player.gd" id="1_ddj3n"]
-[ext_resource type="Texture2D" path="res://assets/_JumpFallInbetween.png" id="2_dowwr"]
-[ext_resource type="Texture2D" path="res://assets/_Attack2.png" id="2_i4q3o"]
-[ext_resource type="Texture2D" path="res://assets/_Idle.png" id="2_rprcx"]
-[ext_resource type="Texture2D" path="res://assets/_Run.png" id="3_t8obh"]
-[ext_resource type="Texture2D" path="res://assets/_Jump.png" id="4_eoy5j"]
+[ext_resource type="Texture2D" uid="uid://dyri2ltx10xpt" path="res://assets/_JumpFallInbetween.png" id="2_dowwr"]
+[ext_resource type="Texture2D" uid="uid://baxfhs4p5vv0t" path="res://assets/_Attack2.png" id="2_i4q3o"]
+[ext_resource type="Texture2D" uid="uid://jgvn4l1shb1l" path="res://assets/_Idle.png" id="2_rprcx"]
+[ext_resource type="Texture2D" uid="uid://bfuieajom2pv1" path="res://assets/_Run.png" id="3_t8obh"]
+[ext_resource type="Texture2D" uid="uid://cgbvnwu6d5yd3" path="res://assets/_Jump.png" id="4_eoy5j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bfyx0"]
 atlas = ExtResource("2_i4q3o")
@@ -260,7 +260,10 @@ script = ExtResource("1_ddj3n")
 position = Vector2(0, -23)
 scale = Vector2(1.2875, 1.2875)
 sprite_frames = SubResource("SpriteFrames_qkt30")
-animation = &"Fall"
+animation = &"Attack"
+frame = 5
+frame_progress = 1.0
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
@@ -270,7 +273,9 @@ shape = SubResource("CapsuleShape2D_dopoa")
 position = Vector2(34, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(6, -1)
+position = Vector2(6, 0)
 shape = SubResource("CapsuleShape2D_csqcb")
+disabled = true
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -21,7 +21,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		
 	if isPlayerDetected:
-		SPEED = 100
+		SPEED = 60
 		if self.position.x > player.position.x:
 			current_direction = -1
 		else:
@@ -33,7 +33,6 @@ func _physics_process(delta):
 			SPEED = 50.0
 			current_direction = randf_range(-1, 1)
 		time_since_move = 0.0
-
 	velocity.x = current_direction * SPEED
 	
 	if velocity.x == 0:
