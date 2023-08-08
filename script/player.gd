@@ -6,7 +6,8 @@ const JUMP_VELOCITY = -500.0
 var isAttacking = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animatedSprite = $AnimatedSprite2D
-@onready var swordAttack = get_node("Area2D/CollisionShape2D")
+@onready var timer = $Timer
+@onready var swordAttack = get_node("Sword/CollisionShape2D")
 @onready var display_size = get_viewport().get_visible_rect().size
 
 func _physics_process(delta):
@@ -34,9 +35,8 @@ func _physics_process(delta):
 			animatedSprite.flip_h = true
 			swordAttack.position.x = -74
 		else:
-			swordAttack.position.x = 6			
-			animatedSprite.flip_h = false		
-		
+			animatedSprite.flip_h = false
+			swordAttack.position.x = 6
 		if self.position.x >= display_size.x:
 			self.position.x = 0
 		if self.position.x <= -10:
@@ -58,5 +58,16 @@ func _on_animated_sprite_2d_animation_finished():
 
 func _on_area_2d_body_entered(body):
 	if "Enemy" in body.name:
+		var enemy = body.get_node("AnimatedSprite2D")
+		enemy.play("Hurt")
+		print(enemy)
 #		print(body)
-		body.queue_free()
+#		body.queue_free()
+		timer.start()
+
+
+func _on_timer_timeout():
+	print("ded")
+	timer.stop()
+#	body.queue_free()
+	

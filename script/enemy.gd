@@ -9,6 +9,7 @@ var move_timer = 3.0
 var time_since_move = 0.0
 var current_direction = 1
 var isPlayerDetected = false
+var isHurting = false
 
 func _ready():
 	time_since_move = move_timer
@@ -37,9 +38,11 @@ func _physics_process(delta):
 	
 	if velocity.x == 0:
 		sprite.play("Idle")
+	elif isHurting:
+		sprite.play("Hurt")
 	else:
 		sprite.play("Walk")
-	
+		
 	if velocity.x < 0:
 		sprite.flip_h = true
 	else:
@@ -56,3 +59,13 @@ func _on_area_2d_body_entered(body):
 func _on_area_2d_body_exited(body):
 	if body.name == "Player":
 		isPlayerDetected = false
+
+
+func _on_hitbox_area_entered(area):
+	if area.name == "Sword":
+		isHurting = true
+
+
+func _on_hitbox_area_exited(area):
+	if area.name == "Sword":
+		isHurting = false

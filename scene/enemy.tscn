@@ -43,7 +43,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Hurt",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -129,16 +129,27 @@ script = ExtResource("1_ssms2")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.04228, 1.04228)
 sprite_frames = SubResource("SpriteFrames_15r23")
-animation = &"Walk"
-frame_progress = 0.0430742
+animation = &"Hurt"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape2D_l6p7c")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="hitbox" type="Area2D" parent="."]
+visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("CapsuleShape2D_l6p7c")
+
+[node name="playerDetector" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetector"]
 shape = SubResource("RectangleShape2D_dnv53")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="playerDetector" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="playerDetector" to="." method="_on_area_2d_body_exited"]
