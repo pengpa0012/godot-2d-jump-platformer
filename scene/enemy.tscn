@@ -126,6 +126,10 @@ size = Vector2(490.5, 72.5)
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_ssms2")
 
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+scale = Vector2(1.04228, 1.04228)
+enable_node_path = NodePath("../AnimatedSprite2D")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.04228, 1.04228)
 sprite_frames = SubResource("SpriteFrames_15r23")
@@ -148,6 +152,7 @@ visible = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetector"]
 shape = SubResource("RectangleShape2D_dnv53")
 
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]

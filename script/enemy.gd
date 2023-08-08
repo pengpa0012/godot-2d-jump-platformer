@@ -3,6 +3,7 @@ extends CharacterBody2D
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var sprite = $AnimatedSprite2D
 @onready var player = get_node("/root/world/Player")
+@onready var display_size = get_viewport().get_visible_rect().size
 var SPEED = 50.0
 const stop_chance = 0.5
 var move_timer = 3.0
@@ -63,9 +64,19 @@ func _on_area_2d_body_exited(body):
 
 func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
+		velocity.x += 100		
 		isHurting = true
+		move_and_slide()
 
 
 func _on_hitbox_area_exited(area):
 	if area.name == "Sword":
 		isHurting = false
+
+
+func _on_visible_on_screen_enabler_2d_screen_exited():
+	if player.position.y < self.position.y:
+		self.position.y -= display_size.y
+	else:
+		self.position.y += display_size.y
+	self.position.x = randf_range(0, display_size.x)

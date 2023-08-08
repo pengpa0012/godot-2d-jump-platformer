@@ -60,9 +60,7 @@ func _on_area_2d_body_entered(body):
 	if "Enemy" in body.name:
 		var enemy = body.get_node("AnimatedSprite2D")
 		enemy.play("Hurt")
-		print(enemy)
-#		print(body)
-#		body.queue_free()
+#		enemy.queue_free()
 		timer.start()
 
 
