@@ -3,7 +3,7 @@ extends CharacterBody2D
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var sprite = $AnimatedSprite2D
 @onready var player = get_node("/root/world/Player")
-const SPEED = 50.0
+var SPEED = 50.0
 const stop_chance = 0.5
 var move_timer = 3.0
 var time_since_move = 0.0
@@ -16,11 +16,21 @@ func _ready():
 
 func _physics_process(delta):
 	time_since_move += delta
-	print(isPlayerDetected)
-	if time_since_move >= move_timer:
+	
+	if not is_on_floor():
+		velocity.y += gravity * delta
+		
+	if isPlayerDetected:
+		SPEED = 100
+		if self.position.x > player.position.x:
+			current_direction = -1
+		else:
+			current_direction = 1
+	elif time_since_move >= move_timer:
 		if randf() < stop_chance:
 			current_direction = 0
 		else:
+			SPEED = 50.0
 			current_direction = randf_range(-1, 1)
 		time_since_move = 0.0
 
