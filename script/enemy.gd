@@ -48,6 +48,12 @@ func _physics_process(delta):
 		sprite.flip_h = true
 	else:
 		sprite.flip_h = false
+		
+	if self.position.x >= display_size.x:
+		self.position.x = 0
+	if self.position.x <= -10:
+		self.position.x = display_size.x
+			
 	move_and_slide()
 	
 
@@ -64,7 +70,7 @@ func _on_area_2d_body_exited(body):
 
 func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
-		velocity.x += 100		
+		self.position.x += 10		
 		isHurting = true
 		move_and_slide()
 
