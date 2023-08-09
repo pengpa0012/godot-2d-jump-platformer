@@ -256,8 +256,6 @@ height = 62.0
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_ddj3n")
 
-[node name="Timer" type="Timer" parent="."]
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -23)
 scale = Vector2(1.2875, 1.2875)
@@ -277,6 +275,5 @@ position = Vector2(34, 1)
 shape = SubResource("CapsuleShape2D_csqcb")
 disabled = true
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Sword" to="." method="_on_area_2d_body_entered"]

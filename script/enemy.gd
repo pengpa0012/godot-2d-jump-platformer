@@ -18,7 +18,7 @@ func _ready():
 
 func _physics_process(delta):
 	time_since_move += delta
-	
+	print("velocity", velocity.x)
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
@@ -35,16 +35,17 @@ func _physics_process(delta):
 			SPEED = 50.0
 			current_direction = randf_range(-1, 1)
 		time_since_move = 0.0
-	velocity.x = current_direction * SPEED
 	
 	if velocity.x == 0:
 		sprite.play("Idle")
 	elif isHurting:
 		sprite.play("Hurt")
+		await get_tree().create_timer(0.1).timeout
+		self.position.x += -current_direction * 2
 	else:
 		sprite.play("Walk")
 		
-	if velocity.x < 0:
+	if current_direction < 0:
 		sprite.flip_h = true
 	else:
 		sprite.flip_h = false
@@ -53,7 +54,8 @@ func _physics_process(delta):
 		self.position.x = 0
 	if self.position.x <= -10:
 		self.position.x = display_size.x
-			
+
+	velocity.x = current_direction * SPEED
 	move_and_slide()
 	
 
@@ -62,7 +64,6 @@ func _on_area_2d_body_entered(body):
 	if body.name == "Player":
 		isPlayerDetected = true
 
-
 func _on_area_2d_body_exited(body):
 	if body.name == "Player":
 		isPlayerDetected = false
@@ -70,9 +71,11 @@ func _on_area_2d_body_exited(body):
 
 func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
-		self.position.x += 10		
+		self.modulate = Color.BLACK
+		await get_tree().create_timer(0.1).timeout
+		self.modulate = Color.WHITE
 		isHurting = true
-		move_and_slide()
+
 
 
 func _on_hitbox_area_exited(area):

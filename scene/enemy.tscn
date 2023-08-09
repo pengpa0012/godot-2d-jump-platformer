@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bbpfb2q6pn5ij"]
+[gd_scene load_steps=30 format=3 uid="uid://bbpfb2q6pn5ij"]
 
 [ext_resource type="Script" path="res://script/enemy.gd" id="1_ssms2"]
 [ext_resource type="Texture2D" uid="uid://cjfuta6gc1752" path="res://assets/enemy/Idle/Zombie_idle1.png" id="2_7v28s"]
@@ -25,6 +25,8 @@
 [ext_resource type="Texture2D" uid="uid://btpmiokhpfnub" path="res://assets/enemy/walk/Zombie_Walk8.png" id="23_6l0q6"]
 [ext_resource type="Texture2D" uid="uid://banmhhrrj433n" path="res://assets/enemy/walk/Zombie_Walk9.png" id="24_ohx81"]
 [ext_resource type="Texture2D" uid="uid://57x82mcyocnw" path="res://assets/enemy/walk/Zombie_Walk10.png" id="25_jehnv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_madlt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_15r23"]
 animations = [{
@@ -124,6 +126,7 @@ height = 54.0
 size = Vector2(490.5, 72.5)
 
 [node name="Enemy" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_madlt")
 script = ExtResource("1_ssms2")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
@@ -131,6 +134,7 @@ scale = Vector2(1.04228, 1.04228)
 enable_node_path = NodePath("../AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 scale = Vector2(1.04228, 1.04228)
 sprite_frames = SubResource("SpriteFrames_15r23")
 animation = &"Hurt"

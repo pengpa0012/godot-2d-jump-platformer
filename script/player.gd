@@ -61,7 +61,6 @@ func _on_area_2d_body_entered(body):
 		var enemy = body.get_node("AnimatedSprite2D")
 		enemy.play("Hurt")
 #		enemy.queue_free()
-		timer.start()
 
 
 func _on_timer_timeout():
