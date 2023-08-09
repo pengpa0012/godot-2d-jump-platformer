@@ -8,6 +8,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var timer = $Timer
 @onready var swordAttack = get_node("Sword/CollisionShape2D")
+@onready var healthBar = get_node("Healthbar/ProgressBar")
 @onready var display_size = get_viewport().get_visible_rect().size
 var HEALTH_COUNT = 10
 var KNOCKBACK_FORCE = 300
@@ -21,7 +22,6 @@ func _physics_process(delta):
 			animatedSprite.play("Jump")	
 		else:
 			animatedSprite.play("Fall")				
-
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 	
@@ -66,9 +66,10 @@ func _on_animated_sprite_2d_animation_finished():
 func _on_hurtbox_body_entered(body):
 	if "Enemy" in body.name:
 		isHurting = true
-#		HEALTH_COUNT -= 1
-#		if HEALTH_COUNT == 0:
-#			self.queue_free()
+		healthBar.value -= 10
+		HEALTH_COUNT -= 1
+		if HEALTH_COUNT == 0:
+			self.queue_free()
 		if body.position.x < self.position.x:
 			velocity.x = KNOCKBACK_FORCE * 3
 		else:
