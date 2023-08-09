@@ -159,9 +159,9 @@ shape = SubResource("RectangleShape2D_dnv53")
 layout_mode = 3
 anchors_preset = 0
 offset_left = -27.0
-offset_top = -35.0
+offset_top = -38.0
 offset_right = 28.0
-offset_bottom = -27.0
+offset_bottom = -30.0
 
 [node name="ProgressBar" type="ProgressBar" parent="Healthbar"]
 modulate = Color(0.952941, 0, 0, 1)
