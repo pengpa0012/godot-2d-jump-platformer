@@ -76,12 +76,6 @@ func _on_hitbox_area_entered(area):
 		if HEALTH_COUNT == 0:
 			self.queue_free()
 
-		self.modulate = Color.BLACK
-		await get_tree().create_timer(0.1).timeout
-		self.modulate = Color.WHITE
-
-
-
 func _on_hitbox_area_exited(area):
 	if area.name == "Sword":
 		isHurting = false

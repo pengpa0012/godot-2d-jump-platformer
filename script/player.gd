@@ -41,6 +41,7 @@ func _physics_process(delta):
 		else:
 			animatedSprite.flip_h = false
 			swordAttack.position.x = 2
+			
 		if self.position.x >= display_size.x:
 			self.position.x = 0
 		if self.position.x <= -10:
