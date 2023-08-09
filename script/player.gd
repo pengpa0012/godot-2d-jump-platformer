@@ -13,6 +13,8 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var HEALTH_COUNT = 10
 var KNOCKBACK_FORCE = 300
 var isHurting = false
+var isRolling = false
+var isSliding = false
 
 func _physics_process(delta):
 #	print("VEL", velocity.x)
@@ -28,11 +30,32 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("attack") and is_on_floor():
 		isAttacking = true
 		swordAttack.disabled = false
+	
+	if Input.is_action_just_pressed("roll") and is_on_floor():
+		isRolling = true
+		
+	if Input.is_action_just_released("roll"):
+		await get_tree().create_timer(.5).timeout
+		isRolling = false
+		
+	if Input.is_action_just_pressed("slide") and is_on_floor():
+		isSliding = true
+		
+	if Input.is_action_just_released("slide"):
+		await get_tree().create_timer(.5).timeout
+		isSliding = false
+		
 			
 	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction && !isAttacking:
 		if is_on_floor():
-			animatedSprite.play("Run")		
+			if isRolling:
+				animatedSprite.play("Roll")
+			elif isSliding:
+				animatedSprite.play("Slide")
+			else:
+				animatedSprite.play("Run")		
+								
 		velocity.x = direction * SPEED
 		
 		if velocity.x < 0:
@@ -53,7 +76,7 @@ func _physics_process(delta):
 			elif isHurting:
 				animatedSprite.play("Fall")
 			else:
-				animatedSprite.play("Idle")		
+				animatedSprite.play("Idle")
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	move_and_slide()
 
@@ -62,11 +85,10 @@ func _on_animated_sprite_2d_animation_finished():
 	isAttacking = false
 	swordAttack.disabled = true
 
-
 func _on_hurtbox_body_entered(body):
 	if "Enemy" in body.name:
 		isHurting = true
-		healthBar.value -= 10
+		healthBar.value -= 105
 		HEALTH_COUNT -= 1
 		if HEALTH_COUNT == 0:
 			self.queue_free()

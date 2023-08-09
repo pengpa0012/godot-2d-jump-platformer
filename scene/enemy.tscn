@@ -407,13 +407,11 @@ animation = &"Walk"
 shape = SubResource("CapsuleShape2D_l6p7c")
 
 [node name="hitbox" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("CapsuleShape2D_l6p7c")
 
 [node name="playerDetector" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetector"]
 shape = SubResource("RectangleShape2D_dnv53")
