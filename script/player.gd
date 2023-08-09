@@ -35,7 +35,7 @@ func _physics_process(delta):
 			animatedSprite.play("Run")		
 		velocity.x = direction * SPEED
 		
-		if velocity.x == -300:
+		if velocity.x < 0:
 			animatedSprite.flip_h = true
 			swordAttack.position.x = -69
 		else:
@@ -59,8 +59,7 @@ func _physics_process(delta):
 
 func _on_animated_sprite_2d_animation_finished():
 	isAttacking = false
-	swordAttack.disabled = true	
-
+	swordAttack.disabled = true
 
 
 func _on_hurtbox_body_entered(body):

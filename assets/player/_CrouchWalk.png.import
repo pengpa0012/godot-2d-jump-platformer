@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyri2ltx10xpt"
-path="res://.godot/imported/_JumpFallInbetween.png-02df1f4eb0fd9021d8e286c25f17d4c1.ctex"
+uid="uid://c7laxr3a8b68i"
+path="res://.godot/imported/_CrouchWalk.png-b8c7e5275618dfff734bb7c431d46609.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/_JumpFallInbetween.png"
-dest_files=["res://.godot/imported/_JumpFallInbetween.png-02df1f4eb0fd9021d8e286c25f17d4c1.ctex"]
+source_file="res://assets/player/_CrouchWalk.png"
+dest_files=["res://.godot/imported/_CrouchWalk.png-b8c7e5275618dfff734bb7c431d46609.ctex"]
 
 [params]
 
