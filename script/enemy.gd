@@ -4,6 +4,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var sprite = $AnimatedSprite2D
 @onready var player = get_node("/root/world/Player")
 @onready var display_size = get_viewport().get_visible_rect().size
+@onready var healthBar = get_node("Healthbar/ProgressBar")
 var SPEED = 50.0
 const stop_chance = 0.5
 var move_timer = 3.0
@@ -70,6 +71,7 @@ func _on_area_2d_body_exited(body):
 func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
 		isHurting = true
+		healthBar.value -= 20
 		HEALTH_COUNT -= 1
 		if HEALTH_COUNT == 0:
 			self.queue_free()
