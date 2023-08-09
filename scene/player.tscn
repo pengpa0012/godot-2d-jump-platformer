@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dk3mouuox7voi"]
+[gd_scene load_steps=41 format=3 uid="uid://dk3mouuox7voi"]
 
 [ext_resource type="Script" path="res://script/player.gd" id="1_ddj3n"]
 [ext_resource type="Texture2D" uid="uid://dyri2ltx10xpt" path="res://assets/_JumpFallInbetween.png" id="2_dowwr"]
@@ -249,6 +249,10 @@ animations = [{
 radius = 16.0
 height = 52.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7p7ak"]
+radius = 14.7573
+height = 45.0485
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_csqcb"]
 radius = 22.0
 height = 62.0
@@ -268,12 +272,23 @@ frame_progress = 1.0
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_dopoa")
 
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(0, -23)
+scale = Vector2(1.2875, 1.2875)
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 20.9709)
+shape = SubResource("CapsuleShape2D_7p7ak")
+debug_color = Color(0.996078, 0, 0.223529, 0.419608)
+
 [node name="Sword" type="Area2D" parent="."]
 position = Vector2(34, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
+position = Vector2(2, 0)
 shape = SubResource("CapsuleShape2D_csqcb")
 disabled = true
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="body_entered" from="Sword" to="." method="_on_area_2d_body_entered"]

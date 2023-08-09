@@ -9,8 +9,12 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var timer = $Timer
 @onready var swordAttack = get_node("Sword/CollisionShape2D")
 @onready var display_size = get_viewport().get_visible_rect().size
+var HEALTH_COUNT = 10
+var KNOCKBACK_FORCE = 300
+var isHurting = false
 
 func _physics_process(delta):
+#	print("VEL", velocity.x)
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		if velocity.y < 0:
@@ -33,10 +37,10 @@ func _physics_process(delta):
 		
 		if velocity.x == -300:
 			animatedSprite.flip_h = true
-			swordAttack.position.x = -74
+			swordAttack.position.x = -69
 		else:
 			animatedSprite.flip_h = false
-			swordAttack.position.x = 6
+			swordAttack.position.x = 2
 		if self.position.x >= display_size.x:
 			self.position.x = 0
 		if self.position.x <= -10:
@@ -45,6 +49,8 @@ func _physics_process(delta):
 		if is_on_floor():
 			if isAttacking:
 				animatedSprite.play("Attack")		
+			elif isHurting:
+				animatedSprite.play("Fall")
 			else:
 				animatedSprite.play("Idle")		
 		velocity.x = move_toward(velocity.x, 0, SPEED)
@@ -56,15 +62,18 @@ func _on_animated_sprite_2d_animation_finished():
 	swordAttack.disabled = true	
 
 
-func _on_area_2d_body_entered(body):
+
+func _on_hurtbox_body_entered(body):
 	if "Enemy" in body.name:
-		var enemy = body.get_node("AnimatedSprite2D")
-		enemy.play("Hurt")
-#		enemy.queue_free()
+		isHurting = true
+#		HEALTH_COUNT -= 1
+#		if HEALTH_COUNT == 0:
+#			self.queue_free()
+		if body.position.x < self.position.x:
+			velocity.x = KNOCKBACK_FORCE * 3
+		else:
+			velocity.x = -(KNOCKBACK_FORCE * 3)
+		move_and_slide()
+		await get_tree().create_timer(0.1).timeout
+		isHurting = false		
 
-
-func _on_timer_timeout():
-	print("ded")
-	timer.stop()
-#	body.queue_free()
-	

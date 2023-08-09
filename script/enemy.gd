@@ -11,6 +11,7 @@ var time_since_move = 0.0
 var current_direction = 1
 var isPlayerDetected = false
 var isHurting = false
+var HEALTH_COUNT = 5
 
 func _ready():
 	time_since_move = move_timer
@@ -18,7 +19,6 @@ func _ready():
 
 func _physics_process(delta):
 	time_since_move += delta
-	print("velocity", velocity.x)
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
@@ -40,8 +40,6 @@ func _physics_process(delta):
 		sprite.play("Idle")
 	elif isHurting:
 		sprite.play("Hurt")
-		await get_tree().create_timer(0.1).timeout
-		self.position.x += -current_direction * 2
 	else:
 		sprite.play("Walk")
 		
@@ -71,10 +69,14 @@ func _on_area_2d_body_exited(body):
 
 func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
-		self.modulate = Color.BLACK
-		await get_tree().create_timer(0.1).timeout
-		self.modulate = Color.WHITE
 		isHurting = true
+		HEALTH_COUNT -= 1
+		if HEALTH_COUNT == 0:
+			self.queue_free()
+
+		self.modulate = Color.BLACK		
+		await get_tree().create_timer(0.1).timeout		
+		self.modulate = Color.WHITE
 
 
 
@@ -84,8 +86,23 @@ func _on_hitbox_area_exited(area):
 
 
 func _on_visible_on_screen_enabler_2d_screen_exited():
-	if player.position.y < self.position.y:
-		self.position.y -= display_size.y
-	else:
-		self.position.y += display_size.y
-	self.position.x = randf_range(0, display_size.x)
+	if is_instance_valid(player):
+		if player.position.y < self.position.y:
+			self.position.y -= display_size.y
+		else:
+			self.position.y += display_size.y
+		self.position.x = randf_range(0, display_size.x)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

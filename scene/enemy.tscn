@@ -141,7 +141,6 @@ animation = &"Hurt"
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CapsuleShape2D_l6p7c")
 
 [node name="hitbox" type="Area2D" parent="."]
