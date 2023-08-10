@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://bbpfb2q6pn5ij"]
+[gd_scene load_steps=62 format=3 uid="uid://bbpfb2q6pn5ij"]
 
 [ext_resource type="Script" path="res://script/enemy.gd" id="1_ssms2"]
 [ext_resource type="Texture2D" uid="uid://x06rj1j8jt2e" path="res://assets/enemy/Skeleton Hit.png" id="2_53oa6"]
@@ -385,8 +385,14 @@ animations = [{
 radius = 13.0
 height = 54.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oneou"]
+size = Vector2(20, 45)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dnv53"]
 size = Vector2(490.5, 72.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rtky1"]
+size = Vector2(139.25, 30)
 
 [node name="Enemy" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_madlt")
@@ -401,20 +407,13 @@ use_parent_material = true
 position = Vector2(5, -2)
 scale = Vector2(1.73974, 1.73974)
 sprite_frames = SubResource("SpriteFrames_15r23")
-animation = &"Walk"
+animation = &"Attack"
+frame = 17
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape2D_l6p7c")
-
-[node name="hitbox" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
-shape = SubResource("CapsuleShape2D_l6p7c")
-
-[node name="playerDetector" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetector"]
-shape = SubResource("RectangleShape2D_dnv53")
 
 [node name="Healthbar" type="Control" parent="."]
 layout_mode = 3
@@ -438,9 +437,38 @@ offset_bottom = 6.0
 value = 100.0
 show_percentage = false
 
+[node name="Detectors" type="Node2D" parent="."]
+
+[node name="sword" type="Area2D" parent="Detectors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/sword"]
+position = Vector2(29, 0)
+shape = SubResource("RectangleShape2D_oneou")
+disabled = true
+debug_color = Color(1, 0.00784314, 0.054902, 0.419608)
+
+[node name="playerDetector" type="Area2D" parent="Detectors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/playerDetector"]
+shape = SubResource("RectangleShape2D_dnv53")
+
+[node name="hitbox" type="Area2D" parent="Detectors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/hitbox"]
+shape = SubResource("CapsuleShape2D_l6p7c")
+
+[node name="attackRange" type="Area2D" parent="Detectors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/attackRange"]
+position = Vector2(-6.625, 0)
+shape = SubResource("RectangleShape2D_rtky1")
+debug_color = Color(0.764706, 0.168627, 1, 0.419608)
+
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
-[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
-[connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
-[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
-[connection signal="body_entered" from="playerDetector" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="playerDetector" to="." method="_on_area_2d_body_exited"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="Detectors/playerDetector" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Detectors/playerDetector" to="." method="_on_area_2d_body_exited"]
+[connection signal="area_entered" from="Detectors/hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="Detectors/hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="body_entered" from="Detectors/attackRange" to="." method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="Detectors/attackRange" to="." method="_on_attack_range_body_exited"]

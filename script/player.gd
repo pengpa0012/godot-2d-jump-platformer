@@ -96,14 +96,20 @@ func _on_animated_sprite_2d_animation_finished():
 #	isSliding = false
 
 func _on_hurtbox_body_entered(body):
-	if "Enemy" in body.name:
+	print(body.name)
+	
+
+
+
+func _on_hurtbox_area_entered(area):
+	if "sword" in area.name:
 		isHurting = true
 		if !hurtBox.disabled:
 			healthBar.value -= 10
 			HEALTH_COUNT -= 1
 			if HEALTH_COUNT == 0:
 				self.queue_free()
-			if body.position.x < self.position.x:
+			if area.global_position.x < self.global_position.x:
 				velocity.x = KNOCKBACK_FORCE * 3
 			else:
 				velocity.x = -(KNOCKBACK_FORCE * 3)
@@ -112,4 +118,3 @@ func _on_hurtbox_body_entered(body):
 		await get_tree().create_timer(0.1).timeout
 		isHurting = false
 		hurtBox.disabled = false
-

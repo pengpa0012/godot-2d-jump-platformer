@@ -5,6 +5,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var player = get_node("/root/world/Player")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var healthBar = get_node("Healthbar/ProgressBar")
+@onready var sword = get_node("Detectors/sword/CollisionShape2D")
 var SPEED = 50.0
 const stop_chance = 0.5
 var move_timer = 3.0
@@ -13,6 +14,7 @@ var current_direction = 1
 var isPlayerDetected = false
 var isHurting = false
 var HEALTH_COUNT = 5
+var enableAttack = false
 
 func _ready():
 	time_since_move = move_timer
@@ -22,7 +24,6 @@ func _physics_process(delta):
 	time_since_move += delta
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		
 	if isPlayerDetected:
 		SPEED = 60
 		if self.position.x > player.position.x:
@@ -37,16 +38,21 @@ func _physics_process(delta):
 			current_direction = randf_range(-1, 1)
 		time_since_move = 0.0
 	
-	if velocity.x == 0:
+	if velocity.x == 0 && !enableAttack:
 		sprite.play("Idle")
 	elif isHurting:
 		sprite.play("Hurt")
+	elif enableAttack:
+		SPEED = 5
+		sprite.play("Attack")
 	else:
 		sprite.play("Walk")
 		
 	if current_direction < 0:
+		sword.position.x = -21
 		sprite.flip_h = true
 	else:
+		sword.position.x = 29
 		sprite.flip_h = false
 		
 	if self.position.x >= display_size.x:
@@ -56,8 +62,6 @@ func _physics_process(delta):
 
 	velocity.x = current_direction * SPEED
 	move_and_slide()
-	
-
 
 func _on_area_2d_body_entered(body):
 	if body.name == "Player":
@@ -80,7 +84,6 @@ func _on_hitbox_area_exited(area):
 	if area.name == "Sword":
 		isHurting = false
 
-
 func _on_visible_on_screen_enabler_2d_screen_exited():
 	if is_instance_valid(player):
 		if player.position.y < self.position.y:
@@ -89,16 +92,17 @@ func _on_visible_on_screen_enabler_2d_screen_exited():
 			self.position.y += display_size.y
 		self.position.x = randf_range(0, display_size.x)
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+func _on_attack_range_body_entered(body):
+	if body.name == "Player":
+		print("inside")
+		enableAttack = true
+		await get_tree().create_timer(.5).timeout
+		sword.disabled = false
+
+func _on_animated_sprite_2d_animation_finished():
+	sword.disabled = true
+
+func _on_attack_range_body_exited(body):
+	enableAttack = false
+
+
