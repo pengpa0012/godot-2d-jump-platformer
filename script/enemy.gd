@@ -49,10 +49,10 @@ func _physics_process(delta):
 		sprite.play("Walk")
 		
 	if current_direction < 0:
-		sword.position.x = -21
+		sword.position.x = -40
 		sprite.flip_h = true
 	else:
-		sword.position.x = 29
+		sword.position.x = 40
 		sprite.flip_h = false
 		
 	if self.position.x >= display_size.x:
