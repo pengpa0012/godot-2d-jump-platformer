@@ -56,6 +56,7 @@ func _physics_process(delta):
 			sword.disabled = false
 		else:
 			sword.disabled = true
+			
 	else:
 		sprite.play("Walk")
 		

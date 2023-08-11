@@ -98,7 +98,7 @@ func _on_animated_sprite_2d_animation_finished():
 #	isRolling = false
 #	isSliding = false
 	
-func hurt_player(area):
+func hurt_player(area, knockback_multiplier):
 	isHurting = true
 	if !hurtBox.disabled:
 		healthBar.value -= 10
@@ -106,9 +106,9 @@ func hurt_player(area):
 		if HEALTH_COUNT == 0:
 			self.queue_free()
 		if area.global_position.x < self.global_position.x:
-			velocity.x = KNOCKBACK_FORCE * 3
+			velocity.x = KNOCKBACK_FORCE * knockback_multiplier
 		else:
-			velocity.x = -(KNOCKBACK_FORCE * 3)
+			velocity.x = -(KNOCKBACK_FORCE * knockback_multiplier)
 	hurtBox.disabled = true
 	move_and_slide()
 	await get_tree().create_timer(0.1).timeout
@@ -120,4 +120,9 @@ func hurt_player(area):
 func _on_hurtbox_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
 	var areaCollision = area.shape_owner_get_owner(area_shape_index)	
 	if "sword" in area.name && !areaCollision.disabled:
-		hurt_player(area)
+		hurt_player(area, 3)
+
+
+func _on_hurtbox_body_entered(body):
+	if "Enemy" in body.name:
+		hurt_player(body, 5)
