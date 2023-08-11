@@ -6,6 +6,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var healthBar = get_node("Healthbar/ProgressBar")
 @onready var sword = get_node("Detectors/sword/CollisionShape2D")
+@onready var attackRangeDetector = get_node("Detectors/attackRange")
 var SPEED = 50.0
 const stop_chance = 0.5
 var move_timer = 3.0
@@ -22,6 +23,11 @@ func _ready():
 
 func _physics_process(delta):
 	time_since_move += delta
+#	for area in attackRangeDetector.get_overlapping_areas():
+#		if "Hurtbox" in area.name:
+#			print("ye", area.name)
+#		else:
+#			print("no", area.name)
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	if isPlayerDetected:
@@ -45,6 +51,10 @@ func _physics_process(delta):
 	elif enableAttack:
 		SPEED = 5
 		sprite.play("Attack")
+		if sprite.frame == 4 || sprite.frame == 8:
+			sword.disabled = false
+		else:
+			sword.disabled = true
 	else:
 		sprite.play("Walk")
 		
@@ -94,15 +104,15 @@ func _on_visible_on_screen_enabler_2d_screen_exited():
 	
 func _on_attack_range_body_entered(body):
 	if body.name == "Player":
-		print("inside")
 		enableAttack = true
-		await get_tree().create_timer(.5).timeout
-		sword.disabled = false
+#		sword.disabled = false
 
 func _on_animated_sprite_2d_animation_finished():
-	sword.disabled = true
+#	sword.disabled = true
+	pass
 
 func _on_attack_range_body_exited(body):
 	enableAttack = false
+	sword.disabled = true
 
 

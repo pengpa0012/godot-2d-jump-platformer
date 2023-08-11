@@ -227,7 +227,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jppgd")
 }],
-"loop": true,
+"loop": false,
 "name": &"Attack",
 "speed": 10.0
 }, {
@@ -359,7 +359,7 @@ size = Vector2(20, 59.5)
 size = Vector2(490.5, 72.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rtky1"]
-size = Vector2(139.25, 30)
+size = Vector2(101.957, 30)
 
 [node name="Enemy" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_madlt")
@@ -374,7 +374,8 @@ use_parent_material = true
 scale = Vector2(1.73974, 1.73974)
 sprite_frames = SubResource("SpriteFrames_15r23")
 animation = &"Attack"
-frame_progress = 0.858494
+frame = 12
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_l6p7c")
@@ -425,7 +426,7 @@ shape = SubResource("CapsuleShape2D_l6p7c")
 [node name="attackRange" type="Area2D" parent="Detectors"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/attackRange"]
-position = Vector2(-6.625, 0)
+position = Vector2(0.0214844, 0)
 shape = SubResource("RectangleShape2D_rtky1")
 debug_color = Color(0.764706, 0.168627, 1, 0.419608)
 

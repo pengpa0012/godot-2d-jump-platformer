@@ -9,6 +9,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var timer = $Timer
 @onready var swordAttack = get_node("Sword/CollisionShape2D")
 @onready var hurtBox = get_node("Hurtbox/CollisionPolygon2D")
+@onready var hurtBoxDetector = get_node("Hurtbox")
 @onready var healthBar = get_node("Healthbar/ProgressBar")
 @onready var display_size = get_viewport().get_visible_rect().size
 var HEALTH_COUNT = 10
@@ -19,6 +20,8 @@ var isSliding = false
 var cannotTurn = false
 
 func _physics_process(delta):
+#	for area in hurtBoxDetector.get_overlapping_areas():
+#		print("AAA ", area.name)
 #	print("VEL", velocity.x)
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -94,27 +97,27 @@ func _on_animated_sprite_2d_animation_finished():
 	swordAttack.disabled = true
 #	isRolling = false
 #	isSliding = false
-
-func _on_hurtbox_body_entered(body):
-	print(body.name)
 	
+func hurt_player(area):
+	isHurting = true
+	if !hurtBox.disabled:
+		healthBar.value -= 10
+		HEALTH_COUNT -= 1
+		if HEALTH_COUNT == 0:
+			self.queue_free()
+		if area.global_position.x < self.global_position.x:
+			velocity.x = KNOCKBACK_FORCE * 3
+		else:
+			velocity.x = -(KNOCKBACK_FORCE * 3)
+	hurtBox.disabled = true
+	move_and_slide()
+	await get_tree().create_timer(0.1).timeout
+	isHurting = false
+	hurtBox.disabled = false
 
 
 
-func _on_hurtbox_area_entered(area):
-	if "sword" in area.name:
-		isHurting = true
-		if !hurtBox.disabled:
-			healthBar.value -= 10
-			HEALTH_COUNT -= 1
-			if HEALTH_COUNT == 0:
-				self.queue_free()
-			if area.global_position.x < self.global_position.x:
-				velocity.x = KNOCKBACK_FORCE * 3
-			else:
-				velocity.x = -(KNOCKBACK_FORCE * 3)
-		hurtBox.disabled = true
-		move_and_slide()
-		await get_tree().create_timer(0.1).timeout
-		isHurting = false
-		hurtBox.disabled = false
+func _on_hurtbox_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
+	var areaCollision = area.shape_owner_get_owner(area_shape_index)	
+	if "sword" in area.name && !areaCollision.disabled:
+		hurt_player(area)
