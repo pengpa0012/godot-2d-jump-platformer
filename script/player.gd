@@ -74,22 +74,22 @@ func _physics_process(delta):
 		if self.position.x <= -10:
 			self.position.x = display_size.x
 	else:
-		if is_on_floor():
-			if isRolling && !isAttacking:
-				cannotTurn = true
-				animatedSprite.play("Roll")
-				if animatedSprite.flip_h:
-					velocity.x -= 303
-				else:
-					velocity.x += 303
-			elif isSliding && !isAttacking:
-				cannotTurn = true
-				animatedSprite.play("Slide")
-				if animatedSprite.flip_h:
-					velocity.x -= 303
-				else:
-					velocity.x += 303
-			elif isAttacking:
+		if isRolling && !isAttacking:
+			cannotTurn = true
+			animatedSprite.play("Roll")
+			if animatedSprite.flip_h:
+				velocity.x -= 302
+			else:
+				velocity.x += 302
+		elif isSliding && !isAttacking:
+			cannotTurn = true
+			animatedSprite.play("Slide")
+			if animatedSprite.flip_h:
+				velocity.x -= 303
+			else:
+				velocity.x += 303
+		elif is_on_floor():
+			if isAttacking:
 				animatedSprite.play("Attack")
 			elif isHurting:
 				animatedSprite.play("Fall")
