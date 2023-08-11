@@ -12,6 +12,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var hurtBoxDetector = get_node("Hurtbox")
 @onready var healthBar = get_node("Healthbar/ProgressBar")
 @onready var display_size = get_viewport().get_visible_rect().size
+@onready var GLOBAL = get_node("/root/Global")
 var HEALTH_COUNT = 10
 var KNOCKBACK_FORCE = 300
 var isHurting = false
@@ -22,9 +23,15 @@ var cannotTurn = false
 func _physics_process(delta):
 #	for area in hurtBoxDetector.get_overlapping_areas():
 #		print("AAA ", area.name)
-#	print("VEL", velocity.x)
+	print("SCORE", GLOBAL.SCORE)
+	
+	if self.position.x >= display_size.x:
+		self.position.x = 0
+	if self.position.x <= -10:
+		self.position.x = display_size.x
+		
 	var direction = Input.get_axis("ui_left", "ui_right")
-
+	
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		if velocity.y < 0:
@@ -68,26 +75,22 @@ func _physics_process(delta):
 		else:
 			animatedSprite.flip_h = false
 			swordAttack.position.x = 0
-			
-		if self.position.x >= display_size.x:
-			self.position.x = 0
-		if self.position.x <= -10:
-			self.position.x = display_size.x
 	else:
+		var moveTo = 0
 		if isRolling && !isAttacking:
 			cannotTurn = true
 			animatedSprite.play("Roll")
 			if animatedSprite.flip_h:
-				velocity.x -= 302
+				moveTo = -302
 			else:
-				velocity.x += 302
+				moveTo = 302
 		elif isSliding && !isAttacking:
 			cannotTurn = true
 			animatedSprite.play("Slide")
 			if animatedSprite.flip_h:
-				velocity.x -= 303
+				moveTo = -302
 			else:
-				velocity.x += 303
+				moveTo = 302
 		elif is_on_floor():
 			if isAttacking:
 				animatedSprite.play("Attack")
@@ -95,7 +98,7 @@ func _physics_process(delta):
 				animatedSprite.play("Fall")
 			else:
 				animatedSprite.play("Idle")
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, moveTo, SPEED)
 	move_and_slide()
 
 
@@ -131,4 +134,4 @@ func _on_hurtbox_area_shape_entered(_area_rid, area, area_shape_index, _local_sh
 
 func _on_hurtbox_body_entered(body):
 	if "Enemy" in body.name:
-		hurt_player(body, 5)
+		hurt_player(body, 4.5)
