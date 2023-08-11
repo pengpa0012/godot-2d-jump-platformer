@@ -24,10 +24,11 @@ func _ready():
 func _physics_process(delta):
 	time_since_move += delta
 #	for area in attackRangeDetector.get_overlapping_areas():
-#		if "Hurtbox" in area.name:
-#			print("ye", area.name)
+#		if "Hurtbox" in area.name && !sprite.is_playing():
+#			enableAttack = true
 #		else:
-#			print("no", area.name)
+#			enableAttack = false
+#
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	if isPlayerDetected:
@@ -105,14 +106,14 @@ func _on_visible_on_screen_enabler_2d_screen_exited():
 func _on_attack_range_body_entered(body):
 	if body.name == "Player":
 		enableAttack = true
-#		sword.disabled = false
 
 func _on_animated_sprite_2d_animation_finished():
-#	sword.disabled = true
-	pass
+	sword.disabled = true
+	enableAttack = false
 
 func _on_attack_range_body_exited(body):
-	enableAttack = false
-	sword.disabled = true
+	if !sprite.is_playing():
+		enableAttack = false
+		sword.disabled = true
 
 
