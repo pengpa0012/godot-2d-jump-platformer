@@ -23,6 +23,8 @@ func _physics_process(delta):
 #	for area in hurtBoxDetector.get_overlapping_areas():
 #		print("AAA ", area.name)
 #	print("VEL", velocity.x)
+	var direction = Input.get_axis("ui_left", "ui_right")
+
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		if velocity.y < 0:
@@ -36,7 +38,7 @@ func _physics_process(delta):
 		isAttacking = true
 		swordAttack.disabled = false
 	
-	if Input.is_action_just_pressed("roll") and is_on_floor():
+	if Input.is_action_just_pressed("roll") and is_on_floor() and direction:
 		isRolling = true
 		cannotTurn = true
 		
@@ -45,7 +47,7 @@ func _physics_process(delta):
 		isRolling = false
 		cannotTurn = false
 		
-	if Input.is_action_just_pressed("slide") and is_on_floor():
+	if Input.is_action_just_pressed("slide") and is_on_floor() and direction:
 		isSliding = true
 		cannotTurn = true
 		
@@ -55,25 +57,17 @@ func _physics_process(delta):
 		cannotTurn = false
 		
 			
-	var direction = Input.get_axis("ui_left", "ui_right")
-	
-	if direction && !isAttacking:
-		if is_on_floor():
-			if isRolling:
-				animatedSprite.play("Roll")
-			elif isSliding:
-				animatedSprite.play("Slide")
-			else:
-				animatedSprite.play("Run")
-		
+	if direction && !isAttacking && !cannotTurn:
+		if is_on_floor():	
+			animatedSprite.play("Run")
 		velocity.x = direction * SPEED
 		
 		if velocity.x < 0:
 			animatedSprite.flip_h = true
-			swordAttack.position.x = -69
+			swordAttack.position.x = -65
 		else:
 			animatedSprite.flip_h = false
-			swordAttack.position.x = 2
+			swordAttack.position.x = 0
 			
 		if self.position.x >= display_size.x:
 			self.position.x = 0
@@ -81,8 +75,22 @@ func _physics_process(delta):
 			self.position.x = display_size.x
 	else:
 		if is_on_floor():
-			if isAttacking:
-				animatedSprite.play("Attack")		
+			if isRolling && !isAttacking:
+				cannotTurn = true
+				animatedSprite.play("Roll")
+				if animatedSprite.flip_h:
+					velocity.x -= 303
+				else:
+					velocity.x += 303
+			elif isSliding && !isAttacking:
+				cannotTurn = true
+				animatedSprite.play("Slide")
+				if animatedSprite.flip_h:
+					velocity.x -= 303
+				else:
+					velocity.x += 303
+			elif isAttacking:
+				animatedSprite.play("Attack")
 			elif isHurting:
 				animatedSprite.play("Fall")
 			else:
@@ -94,6 +102,7 @@ func _physics_process(delta):
 func _on_animated_sprite_2d_animation_finished():
 	isAttacking = false
 	swordAttack.disabled = true
+	cannotTurn = false
 #	isRolling = false
 #	isSliding = false
 	
