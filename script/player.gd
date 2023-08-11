@@ -29,7 +29,7 @@ func _physics_process(delta):
 			animatedSprite.play("Jump")	
 		else:
 			animatedSprite.play("Fall")				
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
 		velocity.y = JUMP_VELOCITY
 	
 	if Input.is_action_just_pressed("attack") and is_on_floor():
@@ -58,7 +58,6 @@ func _physics_process(delta):
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
 	if direction && !isAttacking:
-		var currentDirection = direction
 		if is_on_floor():
 			if isRolling:
 				animatedSprite.play("Roll")
@@ -115,9 +114,7 @@ func hurt_player(area, knockback_multiplier):
 	isHurting = false
 	hurtBox.disabled = false
 
-
-
-func _on_hurtbox_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
+func _on_hurtbox_area_shape_entered(_area_rid, area, area_shape_index, _local_shape_index):
 	var areaCollision = area.shape_owner_get_owner(area_shape_index)	
 	if "sword" in area.name && !areaCollision.disabled:
 		hurt_player(area, 3)
