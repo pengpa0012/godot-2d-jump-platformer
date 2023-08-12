@@ -470,7 +470,9 @@ script = ExtResource("1_ddj3n")
 position = Vector2(0, -23)
 scale = Vector2(1.2875, 1.2875)
 sprite_frames = SubResource("SpriteFrames_qkt30")
-animation = &"Run"
+animation = &"Death"
+frame = 9
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)

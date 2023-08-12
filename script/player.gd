@@ -30,81 +30,84 @@ func _physics_process(delta):
 		self.position.x = display_size.x
 		
 	var direction = Input.get_axis("ui_left", "ui_right")
-	
-	if not is_on_floor():
-		velocity.y += gravity * delta
-		if velocity.y < 0:
-			animatedSprite.play("Jump")	
-		else:
-			animatedSprite.play("Fall")				
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
-		velocity.y = JUMP_VELOCITY
-	
-	if Input.is_action_just_pressed("attack") and is_on_floor():
-		isAttacking = true
-		swordAttack.disabled = false
-	
-	if Input.is_action_just_pressed("roll") and is_on_floor() and direction:
-		isRolling = true
-		cannotTurn = true
+	print(HEALTH_COUNT)
+	if HEALTH_COUNT > 0:
+		if not is_on_floor():
+			velocity.y += gravity * delta
+			if velocity.y < 0:
+				animatedSprite.play("Jump")	
+			else:
+				animatedSprite.play("Fall")				
+		if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
+			velocity.y = JUMP_VELOCITY
 		
-	if Input.is_action_just_released("roll"):
-		await get_tree().create_timer(.5).timeout
-		isRolling = false
-		cannotTurn = false
+		if Input.is_action_just_pressed("attack") and is_on_floor():
+			isAttacking = true
+			swordAttack.disabled = false
 		
-	if Input.is_action_just_pressed("slide") and is_on_floor() and direction:
-		isSliding = true
-		cannotTurn = true
-		
-	if Input.is_action_just_released("slide"):
-		await get_tree().create_timer(.5).timeout
-		isSliding = false
-		cannotTurn = false
-		
+		if Input.is_action_just_pressed("roll") and is_on_floor() and direction:
+			isRolling = true
+			cannotTurn = true
 			
-	if direction && !isAttacking && !cannotTurn:
-		if is_on_floor():	
-			animatedSprite.play("Run")
-		velocity.x = direction * SPEED
-		
-		if velocity.x < 0:
-			animatedSprite.flip_h = true
-			swordAttack.position.x = -65
+		if Input.is_action_just_released("roll"):
+			await get_tree().create_timer(.5).timeout
+			isRolling = false
+			cannotTurn = false
+			
+		if Input.is_action_just_pressed("slide") and is_on_floor() and direction:
+			isSliding = true
+			cannotTurn = true
+			
+		if Input.is_action_just_released("slide"):
+			await get_tree().create_timer(.5).timeout
+			isSliding = false
+			cannotTurn = false
+			
+				
+		if direction && !isAttacking && !cannotTurn:
+			if is_on_floor():	
+				animatedSprite.play("Run")
+			velocity.x = direction * SPEED
+			
+			if velocity.x < 0:
+				animatedSprite.flip_h = true
+				swordAttack.position.x = -65
+			else:
+				animatedSprite.flip_h = false
+				swordAttack.position.x = 0
 		else:
-			animatedSprite.flip_h = false
-			swordAttack.position.x = 0
-	else:
-		var moveTo = 0
-		if isRolling && !isAttacking:
-			cannotTurn = true
-			animatedSprite.play("Roll")
-			if animatedSprite.flip_h:
-				moveTo = -302
-			else:
-				moveTo = 302
-		elif isSliding && !isAttacking:
-			cannotTurn = true
-			animatedSprite.play("Slide")
-			if animatedSprite.flip_h:
-				moveTo = -302
-			else:
-				moveTo = 302
-		elif is_on_floor():
-			if isAttacking:
-				animatedSprite.play("Attack")
-			elif isHurting:
-				animatedSprite.play("Fall")
-			else:
-				animatedSprite.play("Idle")
-		velocity.x = move_toward(velocity.x, moveTo, SPEED)
-	move_and_slide()
+			var moveTo = 0
+			if isRolling && !isAttacking:
+				cannotTurn = true
+				animatedSprite.play("Roll")
+				if animatedSprite.flip_h:
+					moveTo = -302
+				else:
+					moveTo = 302
+			elif isSliding && !isAttacking:
+				cannotTurn = true
+				animatedSprite.play("Slide")
+				if animatedSprite.flip_h:
+					moveTo = -302
+				else:
+					moveTo = 302
+			elif is_on_floor():
+				if isAttacking:
+					animatedSprite.play("Attack")
+				elif isHurting:
+					animatedSprite.play("Fall")
+				else:
+					animatedSprite.play("Idle")
+			velocity.x = move_toward(velocity.x, moveTo, SPEED)
+		move_and_slide()
 
 
 func _on_animated_sprite_2d_animation_finished():
 	isAttacking = false
 	swordAttack.disabled = true
 	cannotTurn = false
+	if HEALTH_COUNT <= 0:
+		self.queue_free()
 #	isRolling = false
 #	isSliding = false
 	
@@ -114,11 +117,12 @@ func hurt_player(area, knockback_multiplier):
 		healthBar.value -= 10
 		HEALTH_COUNT -= 1
 		if HEALTH_COUNT == 0:
-			self.queue_free()
-#		if area.global_position.x < self.global_position.x:
-#			velocity.x = KNOCKBACK_FORCE * knockback_multiplier
-#		else:
-#			velocity.x = -(KNOCKBACK_FORCE * knockback_multiplier)
+			velocity.x = 0
+			animatedSprite.play("Death")
+		if area.global_position.x < self.global_position.x:
+			velocity.x = KNOCKBACK_FORCE * knockback_multiplier
+		else:
+			velocity.x = -(KNOCKBACK_FORCE * knockback_multiplier)
 	hurtBox.disabled = true
 	move_and_slide()
 	await get_tree().create_timer(0.25).timeout
