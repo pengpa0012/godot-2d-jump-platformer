@@ -373,7 +373,7 @@ enable_node_path = NodePath("../AnimatedSprite2D")
 use_parent_material = true
 scale = Vector2(1.73974, 1.73974)
 sprite_frames = SubResource("SpriteFrames_15r23")
-animation = &"Walk"
+animation = &"Death"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_l6p7c")
