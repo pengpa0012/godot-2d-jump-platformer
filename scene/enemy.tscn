@@ -353,7 +353,7 @@ radius = 13.0
 height = 54.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oneou"]
-size = Vector2(20, 59.5)
+size = Vector2(38, 59.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dnv53"]
 size = Vector2(490.5, 72.5)
@@ -373,7 +373,8 @@ enable_node_path = NodePath("../AnimatedSprite2D")
 use_parent_material = true
 scale = Vector2(1.73974, 1.73974)
 sprite_frames = SubResource("SpriteFrames_15r23")
-animation = &"Death"
+animation = &"Attack"
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_l6p7c")
@@ -405,7 +406,7 @@ show_percentage = false
 [node name="sword" type="Area2D" parent="Detectors"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/sword"]
-position = Vector2(40, 0)
+position = Vector2(30, 0)
 shape = SubResource("RectangleShape2D_oneou")
 disabled = true
 debug_color = Color(1, 0.00784314, 0.054902, 0.419608)

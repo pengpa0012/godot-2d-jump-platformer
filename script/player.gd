@@ -23,7 +23,6 @@ var cannotTurn = false
 func _physics_process(delta):
 #	for area in hurtBoxDetector.get_overlapping_areas():
 #		print("AAA ", area.name)
-	print("SCORE", GLOBAL.SCORE)
 	
 	if self.position.x >= display_size.x:
 		self.position.x = 0
@@ -116,10 +115,10 @@ func hurt_player(area, knockback_multiplier):
 		HEALTH_COUNT -= 1
 		if HEALTH_COUNT == 0:
 			self.queue_free()
-		if area.global_position.x < self.global_position.x:
-			velocity.x = KNOCKBACK_FORCE * knockback_multiplier
-		else:
-			velocity.x = -(KNOCKBACK_FORCE * knockback_multiplier)
+#		if area.global_position.x < self.global_position.x:
+#			velocity.x = KNOCKBACK_FORCE * knockback_multiplier
+#		else:
+#			velocity.x = -(KNOCKBACK_FORCE * knockback_multiplier)
 	hurtBox.disabled = true
 	move_and_slide()
 	await get_tree().create_timer(0.25).timeout

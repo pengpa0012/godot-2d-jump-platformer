@@ -6,6 +6,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var healthBar = get_node("Healthbar/ProgressBar")
 @onready var sword = get_node("Detectors/sword/CollisionShape2D")
+@onready var swordDetect = get_node("Detectors/sword")
 @onready var attackRangeDetector = get_node("Detectors/attackRange")
 @onready var GLOBAL = get_node("/root/Global")
 var SPEED = 50.0
@@ -23,13 +24,10 @@ func _ready():
 	current_direction = randf_range(-1, 1)
 
 func _physics_process(delta):
-#	for area in attackRangeDetector.get_overlapping_areas():
-#		if "Hurtbox" in area.name && !sprite.is_playing():
-#			enableAttack = true
-#		else:
-#			enableAttack = false
+	for body in attackRangeDetector.get_overlapping_bodies():
+		if "Player" in body.name:
+			enableAttack = true
 #
-	print(HEALTH_COUNT)
 	if HEALTH_COUNT != 0:
 		time_since_move += delta	
 		if not is_on_floor():
@@ -64,10 +62,10 @@ func _physics_process(delta):
 			sprite.play("Walk")
 			
 		if current_direction < 0:
-			sword.position.x = -40
+			sword.position.x = -30
 			sprite.flip_h = true
 		else:
-			sword.position.x = 40
+			sword.position.x = 30
 			sprite.flip_h = false
 			
 		if self.position.x >= display_size.x:
@@ -94,6 +92,7 @@ func _on_hitbox_area_entered(area):
 		healthBar.value -= 20
 		HEALTH_COUNT -= 1
 		if HEALTH_COUNT == 0:
+			healthBar.visible = false
 			velocity.x = 0
 			sprite.play("Death")
 
@@ -119,9 +118,7 @@ func _on_animated_sprite_2d_animation_finished():
 	if HEALTH_COUNT == 0:
 		self.queue_free()
 
-func _on_attack_range_body_exited(body):
+func _on_attack_range_body_exited(_body):
 	if !sprite.is_playing():
 		enableAttack = false
 		sword.disabled = true
-
-
