@@ -2502,9 +2502,16 @@ limit_bottom = 475
 [node name="Score" type="Label" parent="CanvasGroup/CanvasLayer2"]
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 222.0
+offset_right = 120.0
 offset_bottom = 34.0
 text = "Score:"
+
+[node name="Life" type="Label" parent="CanvasGroup/CanvasLayer2"]
+offset_left = 118.0
+offset_top = 8.0
+offset_right = 224.0
+offset_bottom = 34.0
+text = "Life:"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="CanvasGroup"]
 layer = -1

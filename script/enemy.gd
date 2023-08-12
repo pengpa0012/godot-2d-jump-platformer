@@ -28,7 +28,7 @@ func _physics_process(delta):
 		if "Player" in body.name:
 			enableAttack = true
 #
-	if HEALTH_COUNT != 0:
+	if HEALTH_COUNT > 0:
 		time_since_move += delta	
 		if not is_on_floor():
 			velocity.y += gravity * delta
@@ -91,7 +91,7 @@ func _on_hitbox_area_entered(area):
 		GLOBAL.SCORE += 10
 		healthBar.value -= 20
 		HEALTH_COUNT -= 1
-		if HEALTH_COUNT == 0:
+		if HEALTH_COUNT <= 0:
 			healthBar.visible = false
 			velocity.x = 0
 			sprite.play("Death")
@@ -115,7 +115,7 @@ func _on_attack_range_body_entered(body):
 func _on_animated_sprite_2d_animation_finished():
 	sword.disabled = true
 	enableAttack = false
-	if HEALTH_COUNT == 0:
+	if HEALTH_COUNT <= 0:
 		self.queue_free()
 
 func _on_attack_range_body_exited(_body):

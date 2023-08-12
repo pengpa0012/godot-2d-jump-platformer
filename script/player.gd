@@ -13,7 +13,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var healthBar = get_node("Healthbar/ProgressBar")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var GLOBAL = get_node("/root/Global")
-var HEALTH_COUNT = 10
 var KNOCKBACK_FORCE = 300
 var isHurting = false
 var isRolling = false
@@ -30,8 +29,9 @@ func _physics_process(delta):
 		self.position.x = display_size.x
 		
 	var direction = Input.get_axis("ui_left", "ui_right")
-	print(HEALTH_COUNT)
-	if HEALTH_COUNT > 0:
+	
+		
+	if GLOBAL.HEALTH_COUNT > 0:
 		if not is_on_floor():
 			velocity.y += gravity * delta
 			if velocity.y < 0:
@@ -106,17 +106,23 @@ func _on_animated_sprite_2d_animation_finished():
 	isAttacking = false
 	swordAttack.disabled = true
 	cannotTurn = false
-	if HEALTH_COUNT <= 0:
+	
+	if !GLOBAL.RESPAWN_PLAYER && GLOBAL.HEALTH_COUNT <= 0:
+		healthBar.value = 100
+		
+	if GLOBAL.HEALTH_COUNT <= 0:
+		GLOBAL.LIFE -= 1
+		GLOBAL.RESPAWN_PLAYER = true
+	
+	if GLOBAL.HEALTH_COUNT <= 0 && GLOBAL.LIFE <= 0:
 		self.queue_free()
-#	isRolling = false
-#	isSliding = false
 	
 func hurt_player(area, knockback_multiplier):
 	isHurting = true
 	if !hurtBox.disabled:
 		healthBar.value -= 10
-		HEALTH_COUNT -= 1
-		if HEALTH_COUNT == 0:
+		GLOBAL.HEALTH_COUNT -= 1
+		if GLOBAL.HEALTH_COUNT == 0:
 			velocity.x = 0
 			animatedSprite.play("Death")
 		if area.global_position.x < self.global_position.x:
