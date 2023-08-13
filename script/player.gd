@@ -29,23 +29,23 @@ var canShield = true
 func _physics_process(delta):
 #	for area in hurtBoxDetector.get_overlapping_areas():
 #		print("AAA ", area.name)
-	
+
 	if isShield:
 		shield.visible = true
 	else:
 		shield.visible = false
-		
+	
 	if self.position.x >= display_size.x:
 		self.position.x = 0
 	if self.position.x <= -10:
 		self.position.x = display_size.x
 		
 	var direction = Input.get_axis("ui_left", "ui_right")
-	
 	handlePlayerInput(direction)
 	
 	if GLOBAL.HEALTH_COUNT > 0:
 		if not is_on_floor():
+			walkAudio.stop()
 			velocity.y += gravity * delta
 			if velocity.y < 0:
 				animatedSprite.play("Jump")	
@@ -54,12 +54,15 @@ func _physics_process(delta):
 		
 				
 		if direction && !isAttacking && !cannotTurn && !isCrouchAttack:
+			
 			if is_on_floor():	
 				if isCrouching:
 					SPEED = 50
 					animatedSprite.play("Crouch_Walk")
 				else:
 					SPEED = 300.0	
+					if not walkAudio.playing:
+						walkAudio.play()		
 					animatedSprite.play("Run")
 			velocity.x = direction * SPEED
 			
@@ -70,6 +73,7 @@ func _physics_process(delta):
 				animatedSprite.flip_h = false
 				swordAttack.position.x = 0
 		else:		
+			walkAudio.stop()
 			var moveTo = 0
 			if isRolling && !isAttacking:
 				cannotTurn = true
@@ -147,16 +151,16 @@ func _on_hurtbox_body_entered(body):
 		
 func handlePlayerInput(direction):
 #	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right") and is_on_floor():
-#		walkAudio.playing = true
+#		walkAudio.play()
 #
 #	if Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right") or isAttacking or isCrouching or isCrouchAttack or isRolling:
-#		walkAudio.playing = false
+#		walkAudio.stop()
 			
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
 		velocity.y = JUMP_VELOCITY
 			
 	if Input.is_action_just_pressed("attack") and is_on_floor():
-		swooshAudio.playing = true
+		swooshAudio.play()
 		if isCrouching:
 			isCrouchAttack = true
 		else:
