@@ -424,7 +424,6 @@ value = 100.0
 show_percentage = false
 
 [node name="Detectors" type="Node2D" parent="."]
-visible = false
 
 [node name="sword" type="Area2D" parent="Detectors"]
 
@@ -452,7 +451,6 @@ shape = SubResource("RectangleShape2D_rtky1")
 debug_color = Color(0.764706, 0.168627, 1, 0.419608)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CapsuleShape2D_l6p7c")
 debug_color = Color(0.627451, 0, 0.109804, 0.419608)
 

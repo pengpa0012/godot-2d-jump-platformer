@@ -10,6 +10,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var hurtBox = get_node("Hurtbox/CollisionPolygon2D")
 @onready var hurtBoxDetector = get_node("Hurtbox")
 @onready var healthBar = get_node("Healthbar/ProgressBar")
+@onready var shield = get_node("Shield")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var GLOBAL = get_node("/root/Global")
 var KNOCKBACK_FORCE = 300
@@ -20,11 +21,16 @@ var isSliding = false
 var cannotTurn = false
 var isCrouching = false
 var isCrouchAttack = false
+var isShield = false
 
 func _physics_process(delta):
 #	for area in hurtBoxDetector.get_overlapping_areas():
 #		print("AAA ", area.name)
-	
+	if isShield:
+		shield.visible = true
+	else:
+		shield.visible = false
+		
 	if self.position.x >= display_size.x:
 		self.position.x = 0
 	if self.position.x <= -10:
@@ -107,22 +113,23 @@ func _on_animated_sprite_2d_animation_finished():
 		self.queue_free()
 	
 func hurt_player(area, knockback_multiplier):
-	isHurting = true
-	if !hurtBox.disabled:
-		healthBar.value -= 10
-		GLOBAL.HEALTH_COUNT -= 1
-		if GLOBAL.HEALTH_COUNT == 0:
-			velocity.x = 0
-			animatedSprite.play("Death")
-		if area.global_position.x < self.global_position.x:
-			velocity.x = KNOCKBACK_FORCE * knockback_multiplier
-		else:
-			velocity.x = -(KNOCKBACK_FORCE * knockback_multiplier)
-	hurtBox.disabled = true
-	move_and_slide()
-	await get_tree().create_timer(0.25).timeout
-	isHurting = false
-	hurtBox.disabled = false
+	if !isShield:
+		isHurting = true
+		if !hurtBox.disabled:
+			healthBar.value -= 10
+			GLOBAL.HEALTH_COUNT -= 1
+			if GLOBAL.HEALTH_COUNT == 0:
+				velocity.x = 0
+				animatedSprite.play("Death")
+			if area.global_position.x < self.global_position.x:
+				velocity.x = KNOCKBACK_FORCE * knockback_multiplier
+			else:
+				velocity.x = -(KNOCKBACK_FORCE * knockback_multiplier)
+		hurtBox.disabled = true
+		move_and_slide()
+		await get_tree().create_timer(0.25).timeout
+		isHurting = false
+		hurtBox.disabled = false
 
 func _on_hurtbox_area_shape_entered(_area_rid, area, area_shape_index, _local_shape_index):
 	var areaCollision = area.shape_owner_get_owner(area_shape_index)	
@@ -167,4 +174,10 @@ func handlePlayerInput(direction):
 		isCrouching = true
 		
 	if Input.is_action_just_released("crouch"):
-			isCrouching = false
+		isCrouching = false
+		
+	if Input.is_action_just_pressed("shield"):
+		isShield = true
+		await get_tree().create_timer(.5).timeout
+		isShield = false
+		
