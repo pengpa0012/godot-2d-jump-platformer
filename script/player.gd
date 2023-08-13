@@ -3,7 +3,6 @@ extends CharacterBody2D
 
 var SPEED = 300.0
 const JUMP_VELOCITY = -500.0
-var isAttacking = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var timer = $Timer
@@ -14,11 +13,13 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var GLOBAL = get_node("/root/Global")
 var KNOCKBACK_FORCE = 300
+var isAttacking = false
 var isHurting = false
 var isRolling = false
 var isSliding = false
 var cannotTurn = false
 var isCrouching = false
+var isCrouchAttack = false
 
 func _physics_process(delta):
 #	for area in hurtBoxDetector.get_overlapping_areas():
@@ -41,9 +42,12 @@ func _physics_process(delta):
 				animatedSprite.play("Fall")				
 		if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
 			velocity.y = JUMP_VELOCITY
-		
+			
 		if Input.is_action_just_pressed("attack") and is_on_floor():
-			isAttacking = true
+			if isCrouching:
+				isCrouchAttack = true
+			else:
+				isAttacking = true
 			swordAttack.disabled = false
 		
 		if Input.is_action_just_pressed("roll") and is_on_floor() and direction:
@@ -70,7 +74,7 @@ func _physics_process(delta):
 		if Input.is_action_just_released("crouch"):
 			isCrouching = false
 				
-		if direction && !isAttacking && !cannotTurn:
+		if direction && !isAttacking && !cannotTurn && !isCrouchAttack:
 			if is_on_floor():	
 				if isCrouching:
 					SPEED = 50
@@ -103,7 +107,9 @@ func _physics_process(delta):
 				else:
 					moveTo = 302
 			elif is_on_floor():
-				if isAttacking:
+				if isCrouchAttack:
+					animatedSprite.play("Crouch_Attack")
+				elif isAttacking:
 					animatedSprite.play("Attack")
 				elif isHurting:
 					animatedSprite.play("Fall")
@@ -117,6 +123,7 @@ func _physics_process(delta):
 
 func _on_animated_sprite_2d_animation_finished():
 	isAttacking = false
+	isCrouchAttack = false
 	swordAttack.disabled = true
 	cannotTurn = false
 	

@@ -593,8 +593,7 @@ script = ExtResource("1_ddj3n")
 position = Vector2(0, -23)
 scale = Vector2(1.2875, 1.2875)
 sprite_frames = SubResource("SpriteFrames_qkt30")
-animation = &"Crouch_Attack"
-frame = 3
+animation = &"Crouch_Walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
