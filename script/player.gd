@@ -7,6 +7,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var timer = $Timer
 @onready var swordAttack = get_node("Sword/CollisionShape2D")
+@onready var sword = get_node("Sword")
 @onready var hurtBox = get_node("Hurtbox/CollisionPolygon2D")
 @onready var hurtBoxDetector = get_node("Hurtbox")
 @onready var healthBar = get_node("/root/world/CanvasGroup/CanvasLayer2/Healthbar/ProgressBar")
@@ -15,6 +16,8 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var GLOBAL = get_node("/root/Global")
 @onready var swooshAudio = get_node("sword_swoosh")
 @onready var walkAudio = get_node("walk")
+@onready var slideAudio = get_node("slide")
+@onready var parryAudio = get_node("parry")
 var KNOCKBACK_FORCE = 300
 var isAttacking = false
 var isHurting = false
@@ -83,6 +86,8 @@ func _physics_process(delta):
 				else:
 					moveTo = 302
 			elif isSliding && !isAttacking:
+				if not slideAudio.playing:
+					slideAudio.play()			
 				cannotTurn = true
 				animatedSprite.play("Slide")
 				if animatedSprite.flip_h:
@@ -93,6 +98,9 @@ func _physics_process(delta):
 				if isCrouchAttack:
 					animatedSprite.play("Crouch_Attack")
 				elif isAttacking:
+					for body in sword.get_overlapping_areas():
+						if "sword" in body.name:
+							parryAudio.play()
 					animatedSprite.play("Attack")
 				elif isHurting:
 					animatedSprite.play("Fall")
