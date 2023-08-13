@@ -399,7 +399,7 @@ use_parent_material = true
 scale = Vector2(1.73974, 1.73974)
 sprite_frames = SubResource("SpriteFrames_15r23")
 animation = &"Spawn"
-frame_progress = 0.181416
+frame_progress = 0.532431
 
 [node name="Healthbar" type="Control" parent="."]
 layout_mode = 3

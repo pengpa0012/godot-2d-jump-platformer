@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
+var SPEED = 300.0
 const JUMP_VELOCITY = -500.0
 var isAttacking = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -18,6 +18,7 @@ var isHurting = false
 var isRolling = false
 var isSliding = false
 var cannotTurn = false
+var isCrouching = false
 
 func _physics_process(delta):
 #	for area in hurtBoxDetector.get_overlapping_areas():
@@ -62,11 +63,21 @@ func _physics_process(delta):
 			await get_tree().create_timer(.5).timeout
 			isSliding = false
 			cannotTurn = false
-			
+		
+		if Input.is_action_just_pressed("crouch"):
+			isCrouching = true
+		
+		if Input.is_action_just_released("crouch"):
+			isCrouching = false
 				
 		if direction && !isAttacking && !cannotTurn:
 			if is_on_floor():	
-				animatedSprite.play("Run")
+				if isCrouching:
+					SPEED = 50
+					animatedSprite.play("Crouch_Walk")
+				else:
+					SPEED = 300.0				
+					animatedSprite.play("Run")
 			velocity.x = direction * SPEED
 			
 			if velocity.x < 0:
@@ -96,6 +107,8 @@ func _physics_process(delta):
 					animatedSprite.play("Attack")
 				elif isHurting:
 					animatedSprite.play("Fall")
+				elif isCrouching:
+					animatedSprite.play("Crouch")
 				else:
 					animatedSprite.play("Idle")
 			velocity.x = move_toward(velocity.x, moveTo, SPEED)
