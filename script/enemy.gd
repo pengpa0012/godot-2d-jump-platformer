@@ -5,6 +5,8 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var player = get_node("/root/world/Player")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var healthBar = get_node("Healthbar/ProgressBar")
+@onready var enemy = get_node("CollisionShape2D")
+@onready var hitbox = get_node("Detectors/hitbox/CollisionShape2D")
 @onready var sword = get_node("Detectors/sword/CollisionShape2D")
 @onready var swordDetect = get_node("Detectors/sword")
 @onready var attackRangeDetector = get_node("Detectors/attackRange")
@@ -92,6 +94,8 @@ func _on_hitbox_area_entered(area):
 		healthBar.value -= 20
 		HEALTH_COUNT -= 1
 		if HEALTH_COUNT <= 0:
+			enemy.disabled = true
+			hitbox.disabled = true
 			healthBar.visible = false
 			velocity.x = 0
 			sprite.play("Death")

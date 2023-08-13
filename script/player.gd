@@ -142,5 +142,6 @@ func _on_hurtbox_area_shape_entered(_area_rid, area, area_shape_index, _local_sh
 
 
 func _on_hurtbox_body_entered(body):
-	if "Enemy" in body.name:
+	if "Enemy" in body.name && body.HEALTH_COUNT > 0:
+		print()		
 		hurt_player(body, 4.5)

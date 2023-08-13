@@ -348,15 +348,15 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l6p7c"]
-radius = 13.0
-height = 54.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oneou"]
 size = Vector2(38, 59.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dnv53"]
 size = Vector2(490.5, 72.5)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l6p7c"]
+radius = 13.0
+height = 54.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rtky1"]
 size = Vector2(101.957, 30)
@@ -375,9 +375,6 @@ scale = Vector2(1.73974, 1.73974)
 sprite_frames = SubResource("SpriteFrames_15r23")
 animation = &"Attack"
 flip_h = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_l6p7c")
 
 [node name="Healthbar" type="Control" parent="."]
 layout_mode = 3
@@ -412,7 +409,6 @@ disabled = true
 debug_color = Color(1, 0.00784314, 0.054902, 0.419608)
 
 [node name="playerDetector" type="Area2D" parent="Detectors"]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/playerDetector"]
 shape = SubResource("RectangleShape2D_dnv53")
@@ -428,6 +424,10 @@ shape = SubResource("CapsuleShape2D_l6p7c")
 position = Vector2(0.0214844, 0)
 shape = SubResource("RectangleShape2D_rtky1")
 debug_color = Color(0.764706, 0.168627, 1, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_l6p7c")
+debug_color = Color(0.627451, 0, 0.109804, 0.419608)
 
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

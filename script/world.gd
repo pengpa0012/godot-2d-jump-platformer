@@ -20,3 +20,4 @@ func _process(delta):
 	if GLOBAL.RESPAWN_PLAYER:
 		GLOBAL.RESPAWN_PLAYER = false
 		GLOBAL.HEALTH_COUNT = 10
+		player.position.x = randi_range(0, display_size.x - 100)	
