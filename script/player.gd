@@ -14,10 +14,10 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var shield = get_node("Shield")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var GLOBAL = get_node("/root/Global")
-@onready var swooshAudio = get_node("sword_swoosh")
-@onready var walkAudio = get_node("walk")
-@onready var slideAudio = get_node("slide")
-@onready var parryAudio = get_node("parry")
+@onready var swooshAudio = get_node("/root/world/SFX/sword_swoosh")
+@onready var walkAudio = get_node("/root/world/SFX/walk")
+@onready var slideAudio = get_node("/root/world/SFX/slide")
+@onready var parryAudio = get_node("/root/world/SFX/parry")
 var KNOCKBACK_FORCE = 300
 var isAttacking = false
 var isHurting = false
@@ -146,6 +146,8 @@ func hurt_player(area, knockback_multiplier):
 		await get_tree().create_timer(0.25).timeout
 		isHurting = false
 		hurtBox.disabled = false
+	else:
+		parryAudio.play()
 
 func _on_hurtbox_area_shape_entered(_area_rid, area, area_shape_index, _local_shape_index):
 	var areaCollision = area.shape_owner_get_owner(area_shape_index)	

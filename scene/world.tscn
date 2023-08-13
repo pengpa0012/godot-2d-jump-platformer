@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dnpx17rdvxadg"]
+[gd_scene load_steps=14 format=3 uid="uid://dnpx17rdvxadg"]
 
 [ext_resource type="Script" path="res://script/world.gd" id="1_l4pu8"]
 [ext_resource type="PackedScene" uid="uid://dk3mouuox7voi" path="res://scene/player.tscn" id="2_n1tnf"]
@@ -6,6 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://sav6ct7i1o8a" path="res://scene/platform.tscn" id="3_ircqi"]
 [ext_resource type="Texture2D" uid="uid://dvatjopi2coo" path="res://assets/mainlevbuild.png" id="5_eerbq"]
 [ext_resource type="PackedScene" uid="uid://bbpfb2q6pn5ij" path="res://scene/enemy.tscn" id="6_h475h"]
+[ext_resource type="AudioStream" uid="uid://deku5xjks0cg3" path="res://assets/sfx/sword_swoosh.wav" id="7_im8i6"]
+[ext_resource type="AudioStream" uid="uid://jiayoontptmd" path="res://assets/sfx/slide.wav" id="8_5k5jx"]
+[ext_resource type="AudioStream" uid="uid://cv5ewytn6ux5h" path="res://assets/sfx/parry.wav" id="9_ddxbp"]
+[ext_resource type="AudioStream" uid="uid://duyseaxrf81rx" path="res://assets/sfx/walk.wav" id="10_fl4yn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ygfhl"]
 texture = ExtResource("2_q4sse")
@@ -2576,3 +2580,18 @@ position = Vector2(728, 32)
 
 [node name="Enemy2" parent="Enemies" instance=ExtResource("6_h475h")]
 position = Vector2(688, 288)
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="sword_swoosh" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("7_im8i6")
+
+[node name="slide" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("8_5k5jx")
+volume_db = 10.883
+
+[node name="parry" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("9_ddxbp")
+
+[node name="walk" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("10_fl4yn")
