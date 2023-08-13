@@ -2500,18 +2500,40 @@ limit_bottom = 475
 [node name="CanvasLayer2" type="CanvasLayer" parent="CanvasGroup"]
 
 [node name="Score" type="Label" parent="CanvasGroup/CanvasLayer2"]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 120.0
-offset_bottom = 34.0
+offset_left = 7.0
+offset_top = 35.0
+offset_right = 119.0
+offset_bottom = 61.0
 text = "Score:"
 
 [node name="Life" type="Label" parent="CanvasGroup/CanvasLayer2"]
-offset_left = 118.0
-offset_top = 8.0
-offset_right = 224.0
-offset_bottom = 34.0
+offset_left = 125.0
+offset_top = 35.0
+offset_right = 231.0
+offset_bottom = 61.0
 text = "Life:"
+
+[node name="Healthbar" type="Control" parent="CanvasGroup/CanvasLayer2"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -27.0
+offset_top = -32.0
+offset_right = 28.0
+offset_bottom = -24.0
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasGroup/CanvasLayer2/Healthbar"]
+modulate = Color(0, 1, 0, 1)
+self_modulate = Color(0, 1, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.041
+anchor_right = -0.041
+offset_left = 37.255
+offset_top = 42.0
+offset_right = 462.255
+offset_bottom = 63.0
+value = 100.0
+show_percentage = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="CanvasGroup"]
 layer = -1

@@ -597,7 +597,7 @@ script = ExtResource("1_ddj3n")
 position = Vector2(0, -23)
 scale = Vector2(1.2875, 1.2875)
 sprite_frames = SubResource("SpriteFrames_qkt30")
-animation = &"Attack"
+animation = &"Hurt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
@@ -618,28 +618,6 @@ position = Vector2(34, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
 shape = SubResource("CapsuleShape2D_csqcb")
 disabled = true
-
-[node name="Healthbar" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -27.0
-offset_top = -32.0
-offset_right = 28.0
-offset_bottom = -24.0
-
-[node name="ProgressBar" type="ProgressBar" parent="Healthbar"]
-modulate = Color(0.14902, 0.745098, 0, 1)
-self_modulate = Color(0.14902, 0.745098, 0, 1)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.041
-anchor_right = -0.041
-offset_left = 9.255
-offset_top = 2.0
-offset_right = 50.255
-offset_bottom = 7.0
-value = 100.0
-show_percentage = false
 
 [node name="Shield" type="Area2D" parent="."]
 visible = false

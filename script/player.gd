@@ -9,7 +9,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var swordAttack = get_node("Sword/CollisionShape2D")
 @onready var hurtBox = get_node("Hurtbox/CollisionPolygon2D")
 @onready var hurtBoxDetector = get_node("Hurtbox")
-@onready var healthBar = get_node("Healthbar/ProgressBar")
+@onready var healthBar = get_node("/root/world/CanvasGroup/CanvasLayer2/Healthbar/ProgressBar")
 @onready var shield = get_node("Shield")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var GLOBAL = get_node("/root/Global")
@@ -183,9 +183,6 @@ func handlePlayerInput(direction):
 		canShield = false
 		await get_tree().create_timer(.5).timeout
 		isShield = false
-		
-
 
 func _on_timer_timeout():
-	print("ye")
 	canShield = true
