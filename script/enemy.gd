@@ -20,63 +20,69 @@ var isPlayerDetected = false
 var isHurting = false
 var HEALTH_COUNT = 5
 var enableAttack = false
+var isSpawning = true
 
 func _ready():
 	time_since_move = move_timer
 	current_direction = randf_range(-1, 1)
 
 func _physics_process(delta):
-	for body in attackRangeDetector.get_overlapping_bodies():
-		if "Player" in body.name:
-			enableAttack = true
-#
-	if HEALTH_COUNT > 0:
-		time_since_move += delta	
-		if not is_on_floor():
-			velocity.y += gravity * delta
-		if isPlayerDetected:
-			SPEED = 60
-			if self.position.x > player.position.x:
-				current_direction = -1
+	if isSpawning:
+		sprite.play("Spawn")
+		await get_tree().create_timer(.5).timeout
+		isSpawning = false
+	else:
+		for body in attackRangeDetector.get_overlapping_bodies():
+			if "Player" in body.name:
+				enableAttack = true
+	#
+		if HEALTH_COUNT > 0:
+			time_since_move += delta	
+			if not is_on_floor():
+				velocity.y += gravity * delta
+			if isPlayerDetected:
+				SPEED = 60
+				if self.position.x > player.position.x:
+					current_direction = -1
+				else:
+					current_direction = 1
+			elif time_since_move >= move_timer:
+				if randf() < stop_chance:
+					current_direction = 0
+				else:
+					SPEED = 50.0
+					current_direction = randf_range(-1, 1)
+				time_since_move = 0.0
+			
+			if velocity.x == 0 && !enableAttack:
+				sprite.play("Idle")
+			elif isHurting:
+				sprite.play("Hurt")
+			elif enableAttack:
+				SPEED = 5
+				sprite.play("Attack")
+				if sprite.frame == 4 || sprite.frame == 8:
+					sword.disabled = false
+				else:
+					sword.disabled = true
+					
 			else:
-				current_direction = 1
-		elif time_since_move >= move_timer:
-			if randf() < stop_chance:
-				current_direction = 0
-			else:
-				SPEED = 50.0
-				current_direction = randf_range(-1, 1)
-			time_since_move = 0.0
-		
-		if velocity.x == 0 && !enableAttack:
-			sprite.play("Idle")
-		elif isHurting:
-			sprite.play("Hurt")
-		elif enableAttack:
-			SPEED = 5
-			sprite.play("Attack")
-			if sprite.frame == 4 || sprite.frame == 8:
-				sword.disabled = false
-			else:
-				sword.disabled = true
+				sprite.play("Walk")
 				
-		else:
-			sprite.play("Walk")
-			
-		if current_direction < 0:
-			sword.position.x = -30
-			sprite.flip_h = true
-		else:
-			sword.position.x = 30
-			sprite.flip_h = false
-			
-		if self.position.x >= display_size.x:
-			self.position.x = 0
-		if self.position.x <= -10:
-			self.position.x = display_size.x
+			if current_direction < 0:
+				sword.position.x = -30
+				sprite.flip_h = true
+			else:
+				sword.position.x = 30
+				sprite.flip_h = false
+				
+			if self.position.x >= display_size.x:
+				self.position.x = 0
+			if self.position.x <= -10:
+				self.position.x = display_size.x
 
-		velocity.x = current_direction * SPEED
-		move_and_slide()
+			velocity.x = current_direction * SPEED
+			move_and_slide()
 
 func _on_area_2d_body_entered(body):
 	if body.name == "Player":

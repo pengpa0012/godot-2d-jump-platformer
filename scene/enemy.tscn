@@ -1,7 +1,12 @@
-[gd_scene load_steps=54 format=3 uid="uid://bbpfb2q6pn5ij"]
+[gd_scene load_steps=59 format=3 uid="uid://bbpfb2q6pn5ij"]
 
 [ext_resource type="Script" path="res://script/enemy.gd" id="1_ssms2"]
+[ext_resource type="Texture2D" uid="uid://18f1iiik27a4" path="res://assets/smoke/pop_smoke/FX001_01.png" id="3_vyg2q"]
 [ext_resource type="Texture2D" uid="uid://br1gxsfqlce1o" path="res://assets/enemy/Skeleton enemy.png" id="3_yrb34"]
+[ext_resource type="Texture2D" uid="uid://cliqd8sfri1yy" path="res://assets/smoke/pop_smoke/FX001_02.png" id="4_l34g4"]
+[ext_resource type="Texture2D" uid="uid://jtme2dfdvstn" path="res://assets/smoke/pop_smoke/FX001_03.png" id="5_bqhxy"]
+[ext_resource type="Texture2D" uid="uid://dbciw7ceq0vfb" path="res://assets/smoke/pop_smoke/FX001_04.png" id="6_uhfwb"]
+[ext_resource type="Texture2D" uid="uid://div3q065yj3vx" path="res://assets/smoke/pop_smoke/FX001_05.png" id="7_aipsu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_madlt"]
 
@@ -308,6 +313,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("3_vyg2q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_l34g4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bqhxy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uhfwb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_aipsu")
+}],
+"loop": true,
+"name": &"Spawn",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_7x6ms")
 }, {
 "duration": 1.0,
@@ -373,8 +398,8 @@ enable_node_path = NodePath("../AnimatedSprite2D")
 use_parent_material = true
 scale = Vector2(1.73974, 1.73974)
 sprite_frames = SubResource("SpriteFrames_15r23")
-animation = &"Attack"
-flip_h = true
+animation = &"Spawn"
+frame_progress = 0.181416
 
 [node name="Healthbar" type="Control" parent="."]
 layout_mode = 3
@@ -399,6 +424,7 @@ value = 100.0
 show_percentage = false
 
 [node name="Detectors" type="Node2D" parent="."]
+visible = false
 
 [node name="sword" type="Area2D" parent="Detectors"]
 
@@ -426,6 +452,7 @@ shape = SubResource("RectangleShape2D_rtky1")
 debug_color = Color(0.764706, 0.168627, 1, 0.419608)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape2D_l6p7c")
 debug_color = Color(0.627451, 0, 0.109804, 0.419608)
 
