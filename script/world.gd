@@ -11,11 +11,11 @@ extends Node2D
 func _process(_delta):
 	scoreLabel.text = "Score: {score}".format({"score": GLOBAL.SCORE})
 	lifeLabel.text = "Life: {life}".format({"life": GLOBAL.LIFE})
-	print(GLOBAL.ENEMY_KILLED * GLOBAL.ENEMY_MULTIPLIER)
-	if enemiesCount.get_child_count() <= 1:
-		for i in range(GLOBAL.ENEMY_KILLED * GLOBAL.ENEMY_MULTIPLIER):
+	print(display_size.y, "   ", player.position.y - 130)
+	if enemiesCount.get_child_count() <= 3:
+		for i in range(GLOBAL.ENEMY_KILLED * 10):
 			var newEnemy = enemy.instantiate()
-			newEnemy.position.y = player.position.y - 130
+			newEnemy.position.y = randf_range(player.position.y - 130, player.position.y + -display_size.y)
 			newEnemy.position.x = randf_range(0, player.position.x)
 			enemiesCount.add_child(newEnemy)
 		

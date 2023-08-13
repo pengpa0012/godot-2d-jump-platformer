@@ -22,6 +22,7 @@ var cannotTurn = false
 var isCrouching = false
 var isCrouchAttack = false
 var isShield = false
+var canShield = true
 
 func _physics_process(delta):
 #	for area in hurtBoxDetector.get_overlapping_areas():
@@ -176,8 +177,15 @@ func handlePlayerInput(direction):
 	if Input.is_action_just_released("crouch"):
 		isCrouching = false
 		
-	if Input.is_action_just_pressed("shield"):
+	if Input.is_action_just_pressed("shield") and canShield:
 		isShield = true
+		$Timer.start()
+		canShield = false
 		await get_tree().create_timer(.5).timeout
 		isShield = false
 		
+
+
+func _on_timer_timeout():
+	print("ye")
+	canShield = true
