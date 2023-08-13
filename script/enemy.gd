@@ -112,6 +112,7 @@ func _on_hitbox_area_exited(area):
 
 func _on_visible_on_screen_enabler_2d_screen_exited():
 	if is_instance_valid(player):
+		isSpawning = true
 		if player.position.y < self.position.y:
 			self.position.y -= display_size.y
 		else:
@@ -126,6 +127,8 @@ func _on_animated_sprite_2d_animation_finished():
 	sword.disabled = true
 	enableAttack = false
 	if HEALTH_COUNT <= 0:
+		isSpawning = true
+		GLOBAL.ENEMY_KILLED += 1
 		self.queue_free()
 
 func _on_attack_range_body_exited(_body):

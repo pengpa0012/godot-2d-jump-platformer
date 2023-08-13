@@ -7,15 +7,17 @@ extends Node2D
 @onready var GLOBAL = get_node("/root/Global")
 @onready var scoreLabel = get_node("CanvasGroup/CanvasLayer2/Score")
 @onready var lifeLabel = get_node("CanvasGroup/CanvasLayer2/Life")
-	
-func _process(delta):
+
+func _process(_delta):
 	scoreLabel.text = "Score: {score}".format({"score": GLOBAL.SCORE})
 	lifeLabel.text = "Life: {life}".format({"life": GLOBAL.LIFE})
-	if enemiesCount.get_child_count() < 3:
-		var newEnemy = enemy.instantiate()
-		newEnemy.position.y = player.position.y - 250
-		newEnemy.position.x = randf_range(0, player.position.y)	
-		enemiesCount.add_child(newEnemy)
+	print(GLOBAL.ENEMY_KILLED * GLOBAL.ENEMY_MULTIPLIER)
+	if enemiesCount.get_child_count() <= 1:
+		for i in range(GLOBAL.ENEMY_KILLED * GLOBAL.ENEMY_MULTIPLIER):
+			var newEnemy = enemy.instantiate()
+			newEnemy.position.y = player.position.y - 130
+			newEnemy.position.x = randf_range(0, player.position.x)
+			enemiesCount.add_child(newEnemy)
 		
 	if GLOBAL.RESPAWN_PLAYER:
 		GLOBAL.RESPAWN_PLAYER = false

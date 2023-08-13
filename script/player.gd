@@ -32,6 +32,7 @@ func _physics_process(delta):
 		
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
+	handlePlayerInput(direction)
 		
 	if GLOBAL.HEALTH_COUNT > 0:
 		if not is_on_floor():
@@ -40,39 +41,7 @@ func _physics_process(delta):
 				animatedSprite.play("Jump")	
 			else:
 				animatedSprite.play("Fall")				
-		if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
-			velocity.y = JUMP_VELOCITY
-			
-		if Input.is_action_just_pressed("attack") and is_on_floor():
-			if isCrouching:
-				isCrouchAttack = true
-			else:
-				isAttacking = true
-			swordAttack.disabled = false
 		
-		if Input.is_action_just_pressed("roll") and is_on_floor() and direction:
-			isRolling = true
-			cannotTurn = true
-			
-		if Input.is_action_just_released("roll"):
-			await get_tree().create_timer(.5).timeout
-			isRolling = false
-			cannotTurn = false
-			
-		if Input.is_action_just_pressed("slide") and is_on_floor() and direction:
-			isSliding = true
-			cannotTurn = true
-			
-		if Input.is_action_just_released("slide"):
-			await get_tree().create_timer(.5).timeout
-			isSliding = false
-			cannotTurn = false
-		
-		if Input.is_action_just_pressed("crouch"):
-			isCrouching = true
-		
-		if Input.is_action_just_released("crouch"):
-			isCrouching = false
 				
 		if direction && !isAttacking && !cannotTurn && !isCrouchAttack:
 			if is_on_floor():	
@@ -163,5 +132,39 @@ func _on_hurtbox_area_shape_entered(_area_rid, area, area_shape_index, _local_sh
 
 func _on_hurtbox_body_entered(body):
 	if "Enemy" in body.name && body.HEALTH_COUNT > 0:
-		print()		
 		hurt_player(body, 4.5)
+		
+func handlePlayerInput(direction):
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
+		velocity.y = JUMP_VELOCITY
+			
+	if Input.is_action_just_pressed("attack") and is_on_floor():
+		if isCrouching:
+			isCrouchAttack = true
+		else:
+			isAttacking = true
+		swordAttack.disabled = false
+		
+	if Input.is_action_just_pressed("roll") and is_on_floor() and direction:
+		isRolling = true
+		cannotTurn = true
+			
+	if Input.is_action_just_released("roll"):
+		await get_tree().create_timer(.5).timeout
+		isRolling = false
+		cannotTurn = false
+			
+	if Input.is_action_just_pressed("slide") and is_on_floor() and direction:
+		isSliding = true
+		cannotTurn = true
+			
+	if Input.is_action_just_released("slide"):
+		await get_tree().create_timer(.5).timeout
+		isSliding = false
+		cannotTurn = false
+		
+	if Input.is_action_just_pressed("crouch"):
+		isCrouching = true
+		
+	if Input.is_action_just_released("crouch"):
+			isCrouching = false
