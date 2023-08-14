@@ -11,6 +11,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var swordDetect = get_node("Detectors/sword")
 @onready var attackRangeDetector = get_node("Detectors/attackRange")
 @onready var GLOBAL = get_node("/root/Global")
+@onready var hurtAudio = get_node("/root/world/SFX/enemy_hurt")
 var SPEED = 50.0
 const stop_chance = 0.5
 var move_timer = 3.0
@@ -100,6 +101,10 @@ func _on_hitbox_area_entered(area):
 		healthBar.value -= 20
 		HEALTH_COUNT -= 1
 		if HEALTH_COUNT <= 0:
+			if not hurtAudio.playing:
+				hurtAudio.play()
+			else:
+				hurtAudio.stop()
 			enemy.disabled = true
 			hitbox.disabled = true
 			healthBar.visible = false

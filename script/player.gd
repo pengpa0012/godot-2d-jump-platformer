@@ -1,6 +1,4 @@
 extends CharacterBody2D
-
-
 var SPEED = 300.0
 const JUMP_VELOCITY = -500.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -31,8 +29,6 @@ var isShield = false
 var canShield = true
 
 func _physics_process(delta):
-#	for area in hurtBoxDetector.get_overlapping_areas():
-#		print("AAA ", area.name)
 
 	if isShield:
 		shield.visible = true
@@ -52,13 +48,10 @@ func _physics_process(delta):
 			walkAudio.stop()
 			velocity.y += gravity * delta
 			if velocity.y < 0:
-				animatedSprite.play("Jump")	
+				animatedSprite.play("Jump")
 			else:
-				animatedSprite.play("Fall")				
-		
-				
+				animatedSprite.play("Fall")	
 		if direction && !isAttacking && !cannotTurn && !isCrouchAttack:
-			
 			if is_on_floor():	
 				if isCrouching:
 					SPEED = 50
@@ -115,6 +108,8 @@ func _physics_process(delta):
 
 func _on_animated_sprite_2d_animation_finished():
 	isAttacking = false
+	isSliding = false
+	isRolling = false
 	isCrouchAttack = false
 	swordAttack.disabled = true
 	cannotTurn = false
@@ -163,24 +158,21 @@ func _on_hurtbox_body_entered(body):
 		hurt_player(body, 4.5)
 		
 func handlePlayerInput(direction):
-#	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right") and is_on_floor():
-#		walkAudio.play()
-#
-#	if Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right") or isAttacking or isCrouching or isCrouchAttack or isRolling:
-#		walkAudio.stop()
-			
+
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
 		velocity.y = JUMP_VELOCITY
 			
-	if Input.is_action_just_pressed("attack") and is_on_floor():
-		swooshAudio.play()
+	if Input.is_action_just_pressed("attack") and is_on_floor() and !isCrouchAttack and !isAttacking:
 		if isCrouching:
 			isCrouchAttack = true
 		else:
 			isAttacking = true
 		swordAttack.disabled = false
+		await get_tree().create_timer(.2).timeout
+		swooshAudio.play()
 		
-	if Input.is_action_pressed("roll") and is_on_floor() and direction:
+		
+	if Input.is_action_pressed("roll") and is_on_floor() and direction and !isRolling:
 		isRolling = true
 		cannotTurn = true
 			
@@ -189,7 +181,7 @@ func handlePlayerInput(direction):
 		isRolling = false
 		cannotTurn = false
 			
-	if Input.is_action_pressed("slide") and is_on_floor() and direction:
+	if Input.is_action_pressed("slide") and is_on_floor() and direction and !isSliding:
 		isSliding = true
 		cannotTurn = true
 			
