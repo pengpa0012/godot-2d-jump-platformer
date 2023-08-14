@@ -22,3 +22,7 @@ func _process(_delta):
 		GLOBAL.RESPAWN_PLAYER = false
 		GLOBAL.HEALTH_COUNT = 10
 		player.position.x = randi_range(0, display_size.x - 100)	
+
+
+func _on_area_2d_body_entered(body):
+	print("Tetes", body.name)

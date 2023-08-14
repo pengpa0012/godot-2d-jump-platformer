@@ -18,6 +18,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var walkAudio = get_node("/root/world/SFX/walk")
 @onready var slideAudio = get_node("/root/world/SFX/slide")
 @onready var parryAudio = get_node("/root/world/SFX/parry")
+@onready var hurtAudio = get_node("/root/world/SFX/hurt")
 var KNOCKBACK_FORCE = 300
 var isAttacking = false
 var isHurting = false
@@ -126,10 +127,12 @@ func _on_animated_sprite_2d_animation_finished():
 		GLOBAL.RESPAWN_PLAYER = true
 	
 	if GLOBAL.HEALTH_COUNT <= 0 && GLOBAL.LIFE <= 0:
+		get_tree().change_scene_to_file("res://scene/end_screen.tscn")
 		self.queue_free()
 	
 func hurt_player(area, knockback_multiplier):
 	if !isShield:
+		hurtAudio.play()
 		isHurting = true
 		if !hurtBox.disabled:
 			healthBar.value -= 10
@@ -203,7 +206,7 @@ func handlePlayerInput(direction):
 		
 	if Input.is_action_just_pressed("shield") and canShield:
 		isShield = true
-		$Timer.start()
+		$ShieldTimer.start()
 		canShield = false
 		await get_tree().create_timer(.5).timeout
 		isShield = false
