@@ -230,7 +230,6 @@ animations = [{
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_dp7vj")
-animation = &"Walk"
-frame_progress = 0.412776
+animation = &"Attack"
 
 [connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

@@ -255,5 +255,6 @@ animations = [{
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_dp7vj")
 animation = &"Attack"
+frame = 7
 
 [connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

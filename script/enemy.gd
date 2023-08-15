@@ -25,7 +25,7 @@ var isSpawning = true
 var enemySprite = null
 
 func _init():
-	var levelOneEnemy = preload("res://scene/enemy_bat.tscn") 
+	var levelOneEnemy = preload("res://scene/enemy_skeleton.tscn") 
 	enemySprite = levelOneEnemy.instantiate()
 	self.add_child(enemySprite)
 	
@@ -76,11 +76,11 @@ func _physics_process(delta):
 			elif enableAttack:
 				SPEED = 5
 				$AnimatedSprite2D.play("Attack")
-				sword.disabled = false
 				
-#				if $AnimatedSprite2D.frame == 4 || $AnimatedSprite2D.frame == 8:
-#				else:
-#					sword.disabled = true
+				if $AnimatedSprite2D.frame == 6 || $AnimatedSprite2D.frame == 7:
+					sword.disabled = false					
+				else:
+					sword.disabled = true
 					
 			else:
 				$AnimatedSprite2D.play("Walk")

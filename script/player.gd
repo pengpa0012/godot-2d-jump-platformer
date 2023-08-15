@@ -90,8 +90,10 @@ func _physics_process(delta):
 					moveTo = 302
 			elif is_on_floor():
 				if isCrouchAttack:
+					adjust_sword_collision()
 					animatedSprite.play("Crouch_Attack")
 				elif isAttacking:
+					adjust_sword_collision()
 					for body in sword.get_overlapping_areas():
 						if "sword" in body.name:
 							parryAudio.play()
@@ -205,3 +207,9 @@ func handlePlayerInput(direction):
 
 func _on_timer_timeout():
 	canShield = true
+	
+func adjust_sword_collision():
+	if animatedSprite.frame == 2:
+		swordAttack.disabled = false					
+	else:
+		swordAttack.disabled = true
