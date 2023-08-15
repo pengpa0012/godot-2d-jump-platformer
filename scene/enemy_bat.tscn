@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://mtxop2wef7gv"]
+[gd_scene load_steps=43 format=3 uid="uid://sbkcs80nd85o"]
 
 [ext_resource type="Texture2D" uid="uid://bp6og424f1pgf" path="res://assets/enemy/Flying eye/Attack.png" id="1_esb5r"]
 [ext_resource type="Texture2D" uid="uid://3q8bmyyjondx" path="res://assets/enemy/Flying eye/Death.png" id="2_1muic"]

@@ -22,39 +22,36 @@ var isHurting = false
 var HEALTH_COUNT = 5
 var enableAttack = false
 var isSpawning = true
-var enemySprite = null
 var SWORD_OFFSET_COLLISION = 45
+var currentEnemy = "skeleton"
 # Enemy attack offfset
 #bat - 0
 #goblin - 20
 #mushroom - 10
 #skeleton - 45
 
-func _init():
-	var skeleton = preload("res://scene/enemy_skeleton.tscn") 
-	var goblin = preload("res://scene/enemy_goblin.tscn") 
-	var mushroom = preload("res://scene/enemy_mushroom.tscn") 
-	var bat = preload("res://scene/enemy_bat.tscn")
-	enemySprite = skeleton.instantiate()
-	self.add_child(enemySprite)
+#func _init():
+#	var skeleton = preload("res://scene/enemy_skeleton.tscn") 
+#	var goblin = preload("res://scene/enemy_goblin.tscn") 
+#	var mushroom = preload("res://scene/enemy_mushroom.tscn") 
+#	var bat = preload("res://scene/enemy_bat.tscn")
+#	enemySprite = mushroom.instantiate()
+#	self.add_child(enemySprite)
 	
 func _ready():
 	time_since_move = move_timer
 	current_direction = randf_range(-1, 1)
-
-func _physics_process(delta):
-	if is_instance_valid(enemySprite) && not enemySprite.is_playing():
-		sword.disabled = true
-		enableAttack = false
-		if HEALTH_COUNT <= 0:
-			isSpawning = true
-			GLOBAL.ENEMY_KILLED += 1
-			$AnimatedSprite2D.play("Spawn")			
-			await get_tree().create_timer(0.5).timeout	
-			queue_free()
-			
+	if GLOBAL.SCORE < 100:
+		currentEnemy = "bat"		
+	elif GLOBAL.SCORE >= 100 and GLOBAL.SCORE <= 200:
+		currentEnemy = "mushroom"
+	elif GLOBAL.SCORE >= 200 and GLOBAL.SCORE <= 300:
+		currentEnemy = "goblin"		
+	else:
+		currentEnemy = "skeleton"		
+func _physics_process(delta):	
 	if isSpawning:
-		$AnimatedSprite2D.play("Spawn")
+		$AnimatedSprite2D.play("pop")
 		await get_tree().create_timer(.5).timeout
 		isSpawning = false
 	else:
@@ -81,12 +78,12 @@ func _physics_process(delta):
 				time_since_move = 0.0
 			
 			if velocity.x == 0 && !enableAttack:
-				$AnimatedSprite2D.play("Idle")
+				$AnimatedSprite2D.play(str(currentEnemy,"_idle"))
 			elif isHurting:
-				$AnimatedSprite2D.play("Hurt")
+				$AnimatedSprite2D.play(str(currentEnemy,"_hurt"))
 			elif enableAttack:
 				SPEED = 5
-				$AnimatedSprite2D.play("Attack")
+				$AnimatedSprite2D.play(str(currentEnemy,"_attack"))
 				
 				if $AnimatedSprite2D.frame == 6 || $AnimatedSprite2D.frame == 7:
 					sword.disabled = false					
@@ -94,7 +91,7 @@ func _physics_process(delta):
 					sword.disabled = true
 					
 			else:
-				$AnimatedSprite2D.play("Walk")
+				$AnimatedSprite2D.play(str(currentEnemy,"_walk"))
 				
 			if current_direction < 0:
 				sword.position.x = -SWORD_OFFSET_COLLISION
@@ -135,7 +132,7 @@ func _on_hitbox_area_entered(area):
 			hitbox.disabled = true
 			healthBar.visible = false
 			velocity.x = 0
-			$AnimatedSprite2D.play("Death")
+			$AnimatedSprite2D.play(str(currentEnemy,"_death"))
 			
 			
 
@@ -160,3 +157,15 @@ func _on_attack_range_body_exited(_body):
 	if !$AnimatedSprite2D.is_playing():
 		enableAttack = false
 		sword.disabled = true
+
+
+func _on_animated_sprite_2d_animation_finished():
+	if is_instance_valid($AnimatedSprite2D) && not $AnimatedSprite2D.is_playing():
+		sword.disabled = true
+		enableAttack = false
+		if HEALTH_COUNT <= 0:
+			isSpawning = true
+			GLOBAL.ENEMY_KILLED += 1
+			$AnimatedSprite2D.play("pop")			
+			await get_tree().create_timer(0.5).timeout	
+			queue_free()

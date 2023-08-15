@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://byuwthqr86vpb"]
+[gd_scene load_steps=40 format=3 uid="uid://noqy7ktnjvoe"]
 
 [ext_resource type="Texture2D" uid="uid://cv01k0pn36e45" path="res://assets/enemy/Goblin/Attack.png" id="1_r6fmj"]
 [ext_resource type="Texture2D" uid="uid://dhjxaoxtcivd5" path="res://assets/enemy/Goblin/Death.png" id="2_56nkl"]

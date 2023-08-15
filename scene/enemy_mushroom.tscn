@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://b5n2n4espxhi0"]
+[gd_scene load_steps=39 format=3 uid="uid://b8l43qbmh8v1q"]
 
 [ext_resource type="Texture2D" uid="uid://w2axd5wiwrk8" path="res://assets/enemy/Mushroom/Attack.png" id="1_rhk0k"]
 [ext_resource type="Texture2D" uid="uid://bm13hp36ltlso" path="res://assets/enemy/Mushroom/Death.png" id="2_4b0s1"]
