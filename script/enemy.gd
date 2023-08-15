@@ -24,31 +24,22 @@ var enableAttack = false
 var isSpawning = true
 var SWORD_OFFSET_COLLISION = 45
 var currentEnemy = "skeleton"
-# Enemy attack offfset
-#bat - 0
-#goblin - 20
-#mushroom - 10
-#skeleton - 45
-
-#func _init():
-#	var skeleton = preload("res://scene/enemy_skeleton.tscn") 
-#	var goblin = preload("res://scene/enemy_goblin.tscn") 
-#	var mushroom = preload("res://scene/enemy_mushroom.tscn") 
-#	var bat = preload("res://scene/enemy_bat.tscn")
-#	enemySprite = mushroom.instantiate()
-#	self.add_child(enemySprite)
 	
 func _ready():
 	time_since_move = move_timer
 	current_direction = randf_range(-1, 1)
 	if GLOBAL.SCORE < 100:
 		currentEnemy = "bat"		
+		SWORD_OFFSET_COLLISION = 0
 	elif GLOBAL.SCORE >= 100 and GLOBAL.SCORE <= 200:
 		currentEnemy = "mushroom"
+		SWORD_OFFSET_COLLISION = 10
 	elif GLOBAL.SCORE >= 200 and GLOBAL.SCORE <= 300:
 		currentEnemy = "goblin"		
+		SWORD_OFFSET_COLLISION = 20
 	else:
 		currentEnemy = "skeleton"		
+		SWORD_OFFSET_COLLISION = 45
 func _physics_process(delta):	
 	if isSpawning:
 		$AnimatedSprite2D.play("pop")
@@ -124,7 +115,7 @@ func _on_hitbox_area_entered(area):
 		healthBar.value -= 20
 		HEALTH_COUNT -= 1
 		if HEALTH_COUNT <= 0:
-			if not hurtAudio.playing:
+			if not hurtAudio.playing && !enemy.disabled:
 				hurtAudio.play()
 			else:
 				hurtAudio.stop()
