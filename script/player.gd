@@ -143,7 +143,7 @@ func hurt_player(area, knockback_multiplier):
 				velocity.x = -(KNOCKBACK_FORCE * knockback_multiplier)
 		hurtBox.disabled = true
 		move_and_slide()
-		await get_tree().create_timer(0.25).timeout
+		await get_tree().create_timer(0.5).timeout
 		isHurting = false
 		hurtBox.disabled = false
 	else:

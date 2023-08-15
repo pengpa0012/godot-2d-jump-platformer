@@ -23,10 +23,19 @@ var HEALTH_COUNT = 5
 var enableAttack = false
 var isSpawning = true
 var enemySprite = null
+var SWORD_OFFSET_COLLISION = 45
+# Enemy attack offfset
+#bat - 0
+#goblin - 20
+#mushroom - 10
+#skeleton - 45
 
 func _init():
-	var levelOneEnemy = preload("res://scene/enemy_skeleton.tscn") 
-	enemySprite = levelOneEnemy.instantiate()
+	var skeleton = preload("res://scene/enemy_skeleton.tscn") 
+	var goblin = preload("res://scene/enemy_goblin.tscn") 
+	var mushroom = preload("res://scene/enemy_mushroom.tscn") 
+	var bat = preload("res://scene/enemy_bat.tscn")
+	enemySprite = skeleton.instantiate()
 	self.add_child(enemySprite)
 	
 func _ready():
@@ -40,6 +49,8 @@ func _physics_process(delta):
 		if HEALTH_COUNT <= 0:
 			isSpawning = true
 			GLOBAL.ENEMY_KILLED += 1
+			$AnimatedSprite2D.play("Spawn")			
+			await get_tree().create_timer(0.5).timeout	
 			queue_free()
 			
 	if isSpawning:
@@ -86,10 +97,10 @@ func _physics_process(delta):
 				$AnimatedSprite2D.play("Walk")
 				
 			if current_direction < 0:
-				sword.position.x = -30
+				sword.position.x = -SWORD_OFFSET_COLLISION
 				$AnimatedSprite2D.flip_h = true
 			else:
-				sword.position.x = 30
+				sword.position.x = SWORD_OFFSET_COLLISION
 				$AnimatedSprite2D.flip_h = false
 				
 			if self.position.x >= display_size.x:
@@ -125,6 +136,8 @@ func _on_hitbox_area_entered(area):
 			healthBar.visible = false
 			velocity.x = 0
 			$AnimatedSprite2D.play("Death")
+			
+			
 
 func _on_hitbox_area_exited(area):
 	if area.name == "Sword":
