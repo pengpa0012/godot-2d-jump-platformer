@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-@onready var sprite = $AnimatedSprite2D
 @onready var player = get_node("/root/world/Player")
 @onready var display_size = get_viewport().get_visible_rect().size
 @onready var healthBar = get_node("Healthbar/ProgressBar")
@@ -12,6 +11,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var attackRangeDetector = get_node("Detectors/attackRange")
 @onready var GLOBAL = get_node("/root/Global")
 @onready var hurtAudio = get_node("/root/world/SFX/enemy_hurt")
+
 var SPEED = 50.0
 const stop_chance = 0.5
 var move_timer = 3.0
@@ -22,14 +22,28 @@ var isHurting = false
 var HEALTH_COUNT = 5
 var enableAttack = false
 var isSpawning = true
+var enemySprite = null
 
+func _init():
+	var levelOneEnemy = preload("res://scene/enemy_bat.tscn") 
+	enemySprite = levelOneEnemy.instantiate()
+	self.add_child(enemySprite)
+	
 func _ready():
 	time_since_move = move_timer
 	current_direction = randf_range(-1, 1)
 
 func _physics_process(delta):
+	if is_instance_valid(enemySprite) && not enemySprite.is_playing():
+		sword.disabled = true
+		enableAttack = false
+		if HEALTH_COUNT <= 0:
+			isSpawning = true
+			GLOBAL.ENEMY_KILLED += 1
+			queue_free()
+			
 	if isSpawning:
-		sprite.play("Spawn")
+		$AnimatedSprite2D.play("Spawn")
 		await get_tree().create_timer(.5).timeout
 		isSpawning = false
 	else:
@@ -56,26 +70,27 @@ func _physics_process(delta):
 				time_since_move = 0.0
 			
 			if velocity.x == 0 && !enableAttack:
-				sprite.play("Idle")
+				$AnimatedSprite2D.play("Idle")
 			elif isHurting:
-				sprite.play("Hurt")
+				$AnimatedSprite2D.play("Hurt")
 			elif enableAttack:
 				SPEED = 5
-				sprite.play("Attack")
-				if sprite.frame == 4 || sprite.frame == 8:
-					sword.disabled = false
-				else:
-					sword.disabled = true
+				$AnimatedSprite2D.play("Attack")
+				sword.disabled = false
+				
+#				if $AnimatedSprite2D.frame == 4 || $AnimatedSprite2D.frame == 8:
+#				else:
+#					sword.disabled = true
 					
 			else:
-				sprite.play("Walk")
+				$AnimatedSprite2D.play("Walk")
 				
 			if current_direction < 0:
 				sword.position.x = -30
-				sprite.flip_h = true
+				$AnimatedSprite2D.flip_h = true
 			else:
 				sword.position.x = 30
-				sprite.flip_h = false
+				$AnimatedSprite2D.flip_h = false
 				
 			if self.position.x >= display_size.x:
 				self.position.x = 0
@@ -109,7 +124,7 @@ func _on_hitbox_area_entered(area):
 			hitbox.disabled = true
 			healthBar.visible = false
 			velocity.x = 0
-			sprite.play("Death")
+			$AnimatedSprite2D.play("Death")
 
 func _on_hitbox_area_exited(area):
 	if area.name == "Sword":
@@ -128,15 +143,7 @@ func _on_attack_range_body_entered(body):
 	if body.name == "Player":
 		enableAttack = true
 
-func _on_animated_sprite_2d_animation_finished():
-	sword.disabled = true
-	enableAttack = false
-	if HEALTH_COUNT <= 0:
-		isSpawning = true
-		GLOBAL.ENEMY_KILLED += 1
-		self.queue_free()
-
 func _on_attack_range_body_exited(_body):
-	if !sprite.is_playing():
+	if !$AnimatedSprite2D.is_playing():
 		enableAttack = false
 		sword.disabled = true

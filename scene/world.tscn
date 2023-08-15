@@ -2571,17 +2571,17 @@ position = Vector2(1216, 459)
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Enemy" parent="Enemies" instance=ExtResource("6_h475h")]
-position = Vector2(232, 160)
+[node name="Enemy4" parent="Enemies" instance=ExtResource("6_h475h")]
+position = Vector2(728, 31)
 
 [node name="Enemy3" parent="Enemies" instance=ExtResource("6_h475h")]
-position = Vector2(128, -96)
-
-[node name="Enemy4" parent="Enemies" instance=ExtResource("6_h475h")]
-position = Vector2(728, 32)
+position = Vector2(243, 157)
 
 [node name="Enemy2" parent="Enemies" instance=ExtResource("6_h475h")]
-position = Vector2(688, 288)
+position = Vector2(815, 413)
+
+[node name="Enemy" parent="Enemies" instance=ExtResource("6_h475h")]
+position = Vector2(480, 285)
 
 [node name="SFX" type="Node2D" parent="."]
 
