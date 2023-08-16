@@ -19,7 +19,7 @@ var time_since_move = 0.0
 var current_direction = 1
 var isPlayerDetected = false
 var isHurting = false
-var HEALTH_COUNT = 5
+var HEALTH_COUNT = 400.0
 var enableAttack = false
 var isSpawning = true
 var SWORD_OFFSET_COLLISION = 45
@@ -38,7 +38,7 @@ func _ready():
 		currentEnemy = "goblin"		
 		SWORD_OFFSET_COLLISION = 20
 	else:
-		currentEnemy = "skeleton"		
+		currentEnemy = "skeleton"
 		SWORD_OFFSET_COLLISION = 45
 func _physics_process(delta):	
 	if isSpawning:
@@ -112,8 +112,8 @@ func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
 		isHurting = true
 		GLOBAL.SCORE += 10
-		healthBar.value -= 20
-		HEALTH_COUNT -= 1
+		healthBar.value -= (GLOBAL.PLAYER_DAMAGE / HEALTH_COUNT) * 100 
+		HEALTH_COUNT -= GLOBAL.PLAYER_DAMAGE
 		if HEALTH_COUNT <= 0:
 			if not hurtAudio.playing && !enemy.disabled:
 				hurtAudio.play()

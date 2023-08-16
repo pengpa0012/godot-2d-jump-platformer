@@ -12,7 +12,7 @@ func _process(_delta):
 	scoreLabel.text = "Score: {score}".format({"score": GLOBAL.SCORE})
 	lifeLabel.text = "Life: {life}".format({"life": GLOBAL.LIFE})
 	if enemiesCount.get_child_count() <= 3:
-		for i in range(GLOBAL.ENEMY_KILLED * GLOBAL.ENEMY_MULTIPLIER):
+		for i in range(GLOBAL.ENEMY_KILLED):
 			var newEnemy = enemy.instantiate()
 			newEnemy.position.y = randf_range(player.position.y - 130, player.position.y + -display_size.y)
 			newEnemy.position.x = randf_range(0, player.position.x)
