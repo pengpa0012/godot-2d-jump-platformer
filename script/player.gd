@@ -132,7 +132,7 @@ func hurt_player(area, knockback_multiplier):
 		hurtAudio.play()
 		isHurting = true
 		if !hurtBox.disabled:
-			healthBar.value -= (GLOBAL.ENEMY_DAMAGE / GLOBAL.HEALTH_COUNT) * 100 
+			healthBar.value = ((GLOBAL.HEALTH_COUNT - GLOBAL.ENEMY_DAMAGE) / GLOBAL.HEALTH_COUNT) * 100
 			GLOBAL.HEALTH_COUNT -= GLOBAL.ENEMY_DAMAGE
 			if GLOBAL.HEALTH_COUNT <= 0:
 				velocity.x = 0

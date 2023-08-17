@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dnpx17rdvxadg"]
+[gd_scene load_steps=17 format=3 uid="uid://dnpx17rdvxadg"]
 
 [ext_resource type="Script" path="res://script/world.gd" id="1_l4pu8"]
 [ext_resource type="PackedScene" uid="uid://dk3mouuox7voi" path="res://scene/player.tscn" id="2_n1tnf"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://duyseaxrf81rx" path="res://assets/sfx/walk.wav" id="10_fl4yn"]
 [ext_resource type="AudioStream" uid="uid://cu8g47u2ex130" path="res://assets/sfx/hurt.wav" id="11_a6k4m"]
 [ext_resource type="AudioStream" uid="uid://cd65irvb17kvb" path="res://assets/sfx/enemy_hurt.ogg" id="11_ie0yl"]
+[ext_resource type="PackedScene" uid="uid://c6rgk0sn2waqm" path="res://scene/rune.tscn" id="13_b77b2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ygfhl"]
 texture = ExtResource("2_q4sse")
@@ -2595,3 +2596,15 @@ stream = ExtResource("11_ie0yl")
 [node name="hurt" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource("11_a6k4m")
 volume_db = 5.0
+
+[node name="AnimatedSprite2D3" parent="." instance=ExtResource("13_b77b2")]
+position = Vector2(551, 412)
+frame_progress = 0.0
+
+[node name="AnimatedSprite2D2" parent="." instance=ExtResource("13_b77b2")]
+position = Vector2(498, 412)
+frame_progress = 0.0
+
+[node name="AnimatedSprite2D" parent="." instance=ExtResource("13_b77b2")]
+position = Vector2(444, 412)
+frame_progress = 0.0
