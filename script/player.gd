@@ -132,7 +132,7 @@ func hurt_player(area, knockback_multiplier):
 		hurtAudio.play()
 		isHurting = true
 		if !hurtBox.disabled:
-			healthBar.value = ((GLOBAL.HEALTH_COUNT - GLOBAL.ENEMY_DAMAGE) / GLOBAL.HEALTH_COUNT) * 100
+			healthBar.value = ((GLOBAL.HEALTH_COUNT - GLOBAL.ENEMY_DAMAGE) / GLOBAL.MAX_HEALTH) * 100
 			GLOBAL.HEALTH_COUNT -= GLOBAL.ENEMY_DAMAGE
 			if GLOBAL.HEALTH_COUNT <= 0:
 				velocity.x = 0
@@ -156,7 +156,7 @@ func _on_hurtbox_area_shape_entered(_area_rid, area, area_shape_index, _local_sh
 
 
 func _on_hurtbox_body_entered(body):
-	if "Enemy" in body.name && body.HEALTH_COUNT > 0:
+	if "Enemy" in body.name && body.CURRENT_HEALTH_COUNT > 0:
 		hurt_player(body, 4.5)
 		
 func handlePlayerInput(direction):
@@ -164,7 +164,7 @@ func handlePlayerInput(direction):
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
 		velocity.y = JUMP_VELOCITY
 			
-	if Input.is_action_just_pressed("attack") and is_on_floor() and !isCrouchAttack and !isAttacking:
+	if Input.is_action_just_pressed("attack") and is_on_floor() and !isCrouchAttack and !isAttacking and !isSliding and !isRolling:
 		if isCrouching:
 			isCrouchAttack = true
 		else:

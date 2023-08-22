@@ -19,7 +19,8 @@ var time_since_move = 0.0
 var current_direction = 1
 var isPlayerDetected = false
 var isHurting = false
-var HEALTH_COUNT = 400.0
+var CURRENT_HEALTH_COUNT = 400.0
+var MAX_HEALTH = 400.0
 var enableAttack = false
 var isSpawning = true
 var SWORD_OFFSET_COLLISION = 45
@@ -50,7 +51,7 @@ func _physics_process(delta):
 			if "Player" in body.name:
 				enableAttack = true
 	#
-		if HEALTH_COUNT > 0:
+		if CURRENT_HEALTH_COUNT > 0:
 			time_since_move += delta	
 			if not is_on_floor():
 				velocity.y += gravity * delta
@@ -112,14 +113,14 @@ func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
 		isHurting = true
 		GLOBAL.SCORE += 10
-		healthBar.value = (HEALTH_COUNT - GLOBAL.PLAYER_DAMAGE / HEALTH_COUNT) * 100		
-		HEALTH_COUNT -= GLOBAL.PLAYER_DAMAGE	
-		print(HEALTH_COUNT)	
+		CURRENT_HEALTH_COUNT -= GLOBAL.PLAYER_DAMAGE	
+		healthBar.value = (CURRENT_HEALTH_COUNT / MAX_HEALTH) * 100				
+		print(CURRENT_HEALTH_COUNT)	
 		print("HEALTH BAR", healthBar.value)
-		print("HEALTH COUNT", HEALTH_COUNT)
+		print("HEALTH COUNT", CURRENT_HEALTH_COUNT)
 		print("DAMAGE PERCENTAGE", GLOBAL.PLAYER_DAMAGE)
 		print("-------------------------")
-		if HEALTH_COUNT <= 0:
+		if CURRENT_HEALTH_COUNT <= 0:
 			if not hurtAudio.playing && !enemy.disabled:
 				hurtAudio.play()
 			else:
@@ -159,7 +160,7 @@ func _on_animated_sprite_2d_animation_finished():
 	if is_instance_valid($AnimatedSprite2D) && not $AnimatedSprite2D.is_playing():
 		sword.disabled = true
 		enableAttack = false
-		if HEALTH_COUNT <= 0:
+		if CURRENT_HEALTH_COUNT <= 0:
 			isSpawning = true
 			GLOBAL.ENEMY_KILLED += 1
 			$AnimatedSprite2D.play("pop")			
