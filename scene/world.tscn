@@ -2602,11 +2602,13 @@ volume_db = 5.0
 stream = ExtResource("11_a6k4m")
 volume_db = 5.0
 
-[node name="AnimatedSprite2D3" parent="." instance=ExtResource("13_b77b2")]
-position = Vector2(551, 412)
-
-[node name="AnimatedSprite2D2" parent="." instance=ExtResource("13_b77b2")]
-position = Vector2(498, 412)
-
-[node name="AnimatedSprite2D" parent="." instance=ExtResource("13_b77b2")]
+[node name="Runes" type="Node2D" parent="."]
 position = Vector2(444, 412)
+
+[node name="AnimatedSprite2D3" parent="Runes" instance=ExtResource("13_b77b2")]
+position = Vector2(107, 0)
+
+[node name="AnimatedSprite2D2" parent="Runes" instance=ExtResource("13_b77b2")]
+position = Vector2(54, 0)
+
+[node name="AnimatedSprite2D" parent="Runes" instance=ExtResource("13_b77b2")]

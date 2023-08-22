@@ -112,9 +112,9 @@ func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
 		isHurting = true
 		GLOBAL.SCORE += 10
+		healthBar.value = (HEALTH_COUNT - GLOBAL.PLAYER_DAMAGE / HEALTH_COUNT) * 100		
 		HEALTH_COUNT -= GLOBAL.PLAYER_DAMAGE	
 		print(HEALTH_COUNT)	
-		healthBar.value = ((HEALTH_COUNT - GLOBAL.PLAYER_DAMAGE) / HEALTH_COUNT) * 100
 		print("HEALTH BAR", healthBar.value)
 		print("HEALTH COUNT", HEALTH_COUNT)
 		print("DAMAGE PERCENTAGE", GLOBAL.PLAYER_DAMAGE)

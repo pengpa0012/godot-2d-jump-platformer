@@ -6,3 +6,9 @@ extends Control
 func _process(delta):
 	$Score.text = "Score: {score}".format({"score": GLOBAL.SCORE})
 	$Kills.text = "Total Kills: {kills}".format({"kills": GLOBAL.ENEMY_KILLED})
+
+
+func _on_button_pressed():
+	GLOBAL.SCORE = 0
+	GLOBAL.LIFE = 3
+	get_tree().change_scene_to_file("res://scene/world.tscn")
