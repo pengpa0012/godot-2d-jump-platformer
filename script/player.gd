@@ -27,9 +27,10 @@ var isCrouching = false
 var isCrouchAttack = false
 var isShield = false
 var canShield = true
+var randomAttack = null
 
 func _physics_process(delta):
-
+	print(randomAttack)
 	if isShield:
 		shield.visible = true
 	else:
@@ -97,7 +98,10 @@ func _physics_process(delta):
 					for body in sword.get_overlapping_areas():
 						if "sword" in body.name:
 							parryAudio.play()
-					animatedSprite.play("Attack")
+					if randomAttack == 1:
+						animatedSprite.play("Attack")
+					else:
+						animatedSprite.play("Attack2")						
 				elif isHurting:
 					animatedSprite.play("Fall")
 				elif isCrouching:
@@ -165,6 +169,7 @@ func handlePlayerInput(direction):
 		velocity.y = JUMP_VELOCITY
 			
 	if Input.is_action_just_pressed("attack") and is_on_floor() and !isCrouchAttack and !isAttacking and !isSliding and !isRolling:
+		randomAttack = randi()%2+1
 		if isCrouching:
 			isCrouchAttack = true
 		else:

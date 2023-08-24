@@ -1,7 +1,8 @@
-[gd_scene load_steps=91 format=3 uid="uid://dk3mouuox7voi"]
+[gd_scene load_steps=96 format=3 uid="uid://dk3mouuox7voi"]
 
 [ext_resource type="Script" path="res://script/player.gd" id="1_ddj3n"]
 [ext_resource type="Texture2D" uid="uid://baxfhs4p5vv0t" path="res://assets/player/_Attack2.png" id="2_as5i3"]
+[ext_resource type="Texture2D" uid="uid://5xd2rpo3teom" path="res://assets/player/_Attack.png" id="3_2i6re"]
 [ext_resource type="Texture2D" uid="uid://paxb05ji76gg" path="res://assets/player/_Death.png" id="3_bfsjq"]
 [ext_resource type="Texture2D" uid="uid://rgyl2eslb2yx" path="res://assets/player/_CrouchFull.png" id="3_thxga"]
 [ext_resource type="Texture2D" uid="uid://f5kwb0s0kqd" path="res://assets/player/_CrouchAttack.png" id="4_klgjv"]
@@ -38,6 +39,22 @@ region = Rect2(480, 0, 120, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_xkpch"]
 atlas = ExtResource("2_as5i3")
 region = Rect2(600, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1mh3"]
+atlas = ExtResource("3_2i6re")
+region = Rect2(0, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wygt"]
+atlas = ExtResource("3_2i6re")
+region = Rect2(120, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nk4je"]
+atlas = ExtResource("3_2i6re")
+region = Rect2(240, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7po13"]
+atlas = ExtResource("3_2i6re")
+region = Rect2(360, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_35y05"]
 atlas = ExtResource("3_thxga")
@@ -326,6 +343,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_t1mh3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wygt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nk4je")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7po13")
+}],
+"loop": false,
+"name": &"Attack2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_35y05")
 }, {
 "duration": 1.0,
@@ -597,8 +631,7 @@ script = ExtResource("1_ddj3n")
 position = Vector2(0, -23)
 scale = Vector2(1.2875, 1.2875)
 sprite_frames = SubResource("SpriteFrames_qkt30")
-animation = &"Attack"
-frame = 3
+animation = &"Attack2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
