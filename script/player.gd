@@ -31,6 +31,7 @@ var canShield = true
 func _physics_process(delta):
 
 	if isShield:
+#		get_tree().paused = true
 		shield.visible = true
 	else:
 		shield.visible = false

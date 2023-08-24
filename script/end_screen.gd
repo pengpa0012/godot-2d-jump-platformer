@@ -12,3 +12,7 @@ func _on_button_pressed():
 	GLOBAL.SCORE = 0
 	GLOBAL.LIFE = 3
 	get_tree().change_scene_to_file("res://scene/world.tscn")
+
+
+func _on_button_2_pressed():
+	get_tree().quit()
