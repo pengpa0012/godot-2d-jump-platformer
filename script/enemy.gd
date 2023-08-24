@@ -11,6 +11,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var attackRangeDetector = get_node("Detectors/attackRange")
 @onready var GLOBAL = get_node("/root/Global")
 @onready var hurtAudio = get_node("/root/world/SFX/enemy_hurt")
+@onready var bloodAudio = get_node("/root/world/SFX/blood")
 
 var SPEED = 50.0
 const stop_chance = 0.5
@@ -112,7 +113,9 @@ func _on_area_2d_body_exited(body):
 func _on_hitbox_area_entered(area):
 	if area.name == "Sword":
 		isHurting = true
-		GLOBAL.SCORE += 10
+		bloodAudio.play()
+		var scoreRange = randi_range(10, 15)
+		GLOBAL.SCORE += scoreRange
 		CURRENT_HEALTH_COUNT -= GLOBAL.PLAYER_DAMAGE	
 		healthBar.value = (CURRENT_HEALTH_COUNT / MAX_HEALTH) * 100
 		if CURRENT_HEALTH_COUNT <= 0:
