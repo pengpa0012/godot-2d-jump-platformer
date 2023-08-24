@@ -11,6 +11,7 @@ func _process(delta):
 func _on_button_pressed():
 	GLOBAL.SCORE = 0
 	GLOBAL.LIFE = 3
+	GLOBAL.ENEMY_KILLED = 0
 	get_tree().change_scene_to_file("res://scene/world.tscn")
 
 

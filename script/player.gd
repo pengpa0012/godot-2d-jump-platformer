@@ -28,9 +28,9 @@ var isCrouchAttack = false
 var isShield = false
 var canShield = true
 var randomAttack = null
+var firstAttack = false
 
 func _physics_process(delta):
-	print(randomAttack)
 	if isShield:
 		shield.visible = true
 	else:
@@ -101,7 +101,7 @@ func _physics_process(delta):
 					if randomAttack == 1:
 						animatedSprite.play("Attack")
 					else:
-						animatedSprite.play("Attack2")						
+						animatedSprite.play("Attack2")		
 				elif isHurting:
 					animatedSprite.play("Fall")
 				elif isCrouching:
@@ -169,14 +169,16 @@ func handlePlayerInput(direction):
 		velocity.y = JUMP_VELOCITY
 			
 	if Input.is_action_just_pressed("attack") and is_on_floor() and !isCrouchAttack and !isAttacking and !isSliding and !isRolling:
-		randomAttack = randi()%2+1
+		randomAttack = randi()%2+1	
+		
 		if isCrouching:
 			isCrouchAttack = true
 		else:
 			isAttacking = true
 		swordAttack.disabled = false
 		await get_tree().create_timer(.2).timeout
-		swooshAudio.play()
+		swooshAudio.play()	
+		
 		
 		
 	if Input.is_action_pressed("roll") and is_on_floor() and direction and !isRolling:

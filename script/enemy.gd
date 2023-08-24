@@ -114,12 +114,7 @@ func _on_hitbox_area_entered(area):
 		isHurting = true
 		GLOBAL.SCORE += 10
 		CURRENT_HEALTH_COUNT -= GLOBAL.PLAYER_DAMAGE	
-		healthBar.value = (CURRENT_HEALTH_COUNT / MAX_HEALTH) * 100				
-		print(CURRENT_HEALTH_COUNT)	
-		print("HEALTH BAR", healthBar.value)
-		print("HEALTH COUNT", CURRENT_HEALTH_COUNT)
-		print("DAMAGE PERCENTAGE", GLOBAL.PLAYER_DAMAGE)
-		print("-------------------------")
+		healthBar.value = (CURRENT_HEALTH_COUNT / MAX_HEALTH) * 100
 		if CURRENT_HEALTH_COUNT <= 0:
 			if not hurtAudio.playing && !enemy.disabled:
 				hurtAudio.play()
@@ -130,6 +125,12 @@ func _on_hitbox_area_entered(area):
 			healthBar.visible = false
 			velocity.x = 0
 			$AnimatedSprite2D.play(str(currentEnemy,"_death"))
+		if area.global_position.x < self.global_position.x:
+			velocity.x = 300 * 3
+		else:
+			velocity.x = -(300 * 3)
+		move_and_slide()
+		print(velocity.x)		
 			
 			
 
