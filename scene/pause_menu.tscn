@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://com8lwf0vm842"]
+
+[node name="PauseMenu" type="Control"]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -221.0
+offset_top = -150.0
+offset_right = 86.0
+offset_bottom = 115.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.5
+offset_top = -77.5
+offset_right = 193.5
+offset_bottom = 146.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.321569, 0.321569, 0.321569, 1)
+
+[node name="Quit" type="Button" parent="."]
+layout_mode = 1
+offset_left = 161.0
+offset_top = 176.0
+offset_right = 282.0
+offset_bottom = 230.0
+text = "Quit"
+
+[node name="Resume" type="Button" parent="."]
+layout_mode = 1
+offset_left = 162.0
+offset_top = 100.0
+offset_right = 283.0
+offset_bottom = 154.0
+text = "Resume
+"

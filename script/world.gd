@@ -7,8 +7,14 @@ extends Node2D
 @onready var GLOBAL = get_node("/root/Global")
 @onready var scoreLabel = get_node("CanvasGroup/CanvasLayer2/Score")
 @onready var lifeLabel = get_node("CanvasGroup/CanvasLayer2/Life")
+@onready var pauseMenu = get_node("CanvasGroup/CanvasLayer2/PauseMenu")
 
 func _process(_delta):
+	if Input.is_action_just_pressed("pause"):
+		pauseMenu.visible = true
+	
+	if pauseMenu.visible:
+		get_tree().paused = true
 	scoreLabel.text = "Score: {score}".format({"score": GLOBAL.SCORE})
 	lifeLabel.text = "Life: {life}".format({"life": GLOBAL.LIFE})
 	if enemiesCount.get_child_count() <= 3:
@@ -26,3 +32,12 @@ func _process(_delta):
 
 func _on_area_2d_body_entered(body):
 	print("Tetes", body.name)
+
+
+func _on_resume_pressed():
+	pauseMenu.visible = false
+	get_tree().paused = false
+
+
+func _on_quit_pressed():
+	get_tree().quit()
