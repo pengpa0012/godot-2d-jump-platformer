@@ -20,8 +20,8 @@ var time_since_move = 0.0
 var current_direction = 1
 var isPlayerDetected = false
 var isHurting = false
-var CURRENT_HEALTH_COUNT = 400.0
-var MAX_HEALTH = 400.0
+var CURRENT_HEALTH_COUNT = null
+var MAX_HEALTH = null
 var enableAttack = false
 var isSpawning = true
 var SWORD_OFFSET_COLLISION = 45
@@ -30,18 +30,26 @@ var currentEnemy = "skeleton"
 func _ready():
 	time_since_move = move_timer
 	current_direction = randf_range(-1, 1)
-	if GLOBAL.SCORE < 100:
+	if GLOBAL.SCORE < 200:
 		currentEnemy = "bat"		
 		SWORD_OFFSET_COLLISION = 0
-	elif GLOBAL.SCORE >= 100 and GLOBAL.SCORE <= 200:
+		CURRENT_HEALTH_COUNT = 100
+		MAX_HEALTH = 100
+	elif GLOBAL.SCORE >= 200 and GLOBAL.SCORE <= 400:
 		currentEnemy = "mushroom"
 		SWORD_OFFSET_COLLISION = 10
-	elif GLOBAL.SCORE >= 200 and GLOBAL.SCORE <= 300:
+		CURRENT_HEALTH_COUNT = 150
+		MAX_HEALTH = 150
+	elif GLOBAL.SCORE >= 400 and GLOBAL.SCORE <= 1000:
 		currentEnemy = "goblin"		
 		SWORD_OFFSET_COLLISION = 20
+		CURRENT_HEALTH_COUNT = 250
+		MAX_HEALTH = 250
 	else:
 		currentEnemy = "skeleton"
 		SWORD_OFFSET_COLLISION = 45
+		CURRENT_HEALTH_COUNT = 350
+		MAX_HEALTH = 350
 func _physics_process(delta):	
 	if isSpawning:
 		$AnimatedSprite2D.play("pop")
