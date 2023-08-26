@@ -12,6 +12,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var GLOBAL = get_node("/root/Global")
 @onready var hurtAudio = get_node("/root/world/SFX/enemy_hurt")
 @onready var bloodAudio = get_node("/root/world/SFX/blood")
+@onready var loot = preload("res://scene/rune.tscn")
 
 var SPEED = 50.0
 const stop_chance = 0.5
@@ -26,6 +27,7 @@ var enableAttack = false
 var isSpawning = true
 var SWORD_OFFSET_COLLISION = 45
 var currentEnemy = "skeleton"
+var dropLoot = false
 	
 func _ready():
 	time_since_move = move_timer
@@ -141,7 +143,6 @@ func _on_hitbox_area_entered(area):
 		else:
 			velocity.x = -(300 * 3)
 		move_and_slide()
-		print(velocity.x)		
 			
 			
 
@@ -173,6 +174,13 @@ func _on_animated_sprite_2d_animation_finished():
 		sword.disabled = true
 		enableAttack = false
 		if CURRENT_HEALTH_COUNT <= 0:
+			var dropLootProbability = randi_range(0, 10)
+			if dropLootProbability > 0:
+				var dropLoot = loot.instantiate()
+				dropLoot.position.y = self.position.y
+				dropLoot.position.x = self.position.x 
+				get_tree().get_root().add_child(dropLoot)
+			print("LOOT SPAWN? ", dropLootProbability)
 			isSpawning = true
 			GLOBAL.ENEMY_KILLED += 1
 			$AnimatedSprite2D.play("pop")			

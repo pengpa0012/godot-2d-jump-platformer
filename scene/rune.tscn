@@ -187,8 +187,8 @@ shape = SubResource("CircleShape2D_7qrrr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lj2le")
-animation = &"coin"
-frame_progress = 0.100579
+animation = &"power_up_damage"
+frame_progress = 0.360635
 metadata/_edit_horizontal_guides_ = [-39.0]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
