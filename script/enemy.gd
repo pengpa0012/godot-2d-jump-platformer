@@ -180,7 +180,6 @@ func _on_animated_sprite_2d_animation_finished():
 				dropLoot.position.y = self.position.y
 				dropLoot.position.x = self.position.x 
 				get_tree().get_root().add_child(dropLoot)
-			print("LOOT SPAWN? ", dropLootProbability)
 			isSpawning = true
 			GLOBAL.ENEMY_KILLED += 1
 			$AnimatedSprite2D.play("pop")			
