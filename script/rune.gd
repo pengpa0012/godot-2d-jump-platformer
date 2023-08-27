@@ -1,6 +1,8 @@
 extends Node2D
 @onready var GLOBAL = get_node("/root/Global")
 @onready var coinAudio = get_node("/root/world/SFX/coin")
+@onready var powerUpAudio = get_node("/root/world/SFX/power_up")
+@onready var healthAudio = get_node("/root/world/SFX/health")
 
 func _ready():
 	var dropLootProbability = randi_range(0, 10)
@@ -27,9 +29,11 @@ func _on_area_2d_body_entered(body):
 			GLOBAL.SCORE += 2
 		elif GLOBAL.RUNE_TYPE == "HEART":
 			$AnimatedSprite2D.play("health")
+			healthAudio.play()			
 			GLOBAL.LIFE += 1
 		else:
 			$AnimatedSprite2D.play("power_up_damage")
+			powerUpAudio.play()						
 			GLOBAL.PLAYER_DAMAGE += 30
 		
 		self.queue_free()

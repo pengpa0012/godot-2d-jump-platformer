@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dnpx17rdvxadg"]
+[gd_scene load_steps=21 format=3 uid="uid://dnpx17rdvxadg"]
 
 [ext_resource type="Script" path="res://script/world.gd" id="1_l4pu8"]
 [ext_resource type="PackedScene" uid="uid://dk3mouuox7voi" path="res://scene/player.tscn" id="2_n1tnf"]
@@ -13,8 +13,9 @@
 [ext_resource type="AudioStream" uid="uid://cu8g47u2ex130" path="res://assets/sfx/hurt.wav" id="11_a6k4m"]
 [ext_resource type="AudioStream" uid="uid://cd65irvb17kvb" path="res://assets/sfx/enemy_hurt.ogg" id="11_ie0yl"]
 [ext_resource type="AudioStream" uid="uid://n7osptjjx8d7" path="res://assets/sfx/coin.wav" id="12_ov486"]
-[ext_resource type="PackedScene" uid="uid://c6rgk0sn2waqm" path="res://scene/rune.tscn" id="13_b77b2"]
 [ext_resource type="AudioStream" uid="uid://c736dbbe2yyhs" path="res://assets/sfx/blood.wav" id="13_xayn3"]
+[ext_resource type="AudioStream" uid="uid://cb1f38m7tyxor" path="res://assets/sfx/power_up.wav" id="14_dkewe"]
+[ext_resource type="AudioStream" uid="uid://cwltslr8rbcda" path="res://assets/sfx/health.wav" id="14_v5ndu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ygfhl"]
 texture = ExtResource("2_q4sse")
@@ -2668,20 +2669,15 @@ volume_db = 5.0
 stream = ExtResource("13_xayn3")
 volume_db = -20.0
 
+[node name="health" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("14_v5ndu")
+
+[node name="power_up" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("14_dkewe")
+
 [node name="hurt" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource("11_a6k4m")
 volume_db = 5.0
-
-[node name="Runes" type="Node2D" parent="."]
-position = Vector2(444, 412)
-
-[node name="AnimatedSprite2D3" parent="Runes" instance=ExtResource("13_b77b2")]
-position = Vector2(107, 0)
-
-[node name="AnimatedSprite2D2" parent="Runes" instance=ExtResource("13_b77b2")]
-position = Vector2(54, 0)
-
-[node name="AnimatedSprite2D" parent="Runes" instance=ExtResource("13_b77b2")]
 
 [connection signal="pressed" from="CanvasGroup/CanvasLayer2/PauseMenu/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="CanvasGroup/CanvasLayer2/PauseMenu/Resume" to="." method="_on_resume_pressed"]
