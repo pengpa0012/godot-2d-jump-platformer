@@ -30,6 +30,6 @@ func _on_area_2d_body_entered(body):
 			GLOBAL.LIFE += 1
 		else:
 			$AnimatedSprite2D.play("power_up_damage")
-			GLOBAL.PLAYER_DAMAGE += 100
+			GLOBAL.PLAYER_DAMAGE += 30
 		
 		self.queue_free()

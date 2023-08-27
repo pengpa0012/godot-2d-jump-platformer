@@ -418,6 +418,8 @@ size = Vector2(1155.25, 22)
 
 [node name="Platform" type="StaticBody2D"]
 position = Vector2(573.5, 474)
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_sec10")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

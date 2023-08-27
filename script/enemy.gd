@@ -133,6 +133,8 @@ func _on_hitbox_area_entered(area):
 				hurtAudio.play()
 			else:
 				hurtAudio.stop()
+			self.collision_layer = 2
+			self.collision_mask = 2
 			enemy.disabled = true
 			hitbox.disabled = true
 			healthBar.visible = false
