@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c6rgk0sn2waqm"]
+[gd_scene load_steps=34 format=3 uid="uid://c6rgk0sn2waqm"]
 
 [ext_resource type="Texture2D" uid="uid://cl0la72igc82h" path="res://assets/animated_items.png" id="1_4ejti"]
 [ext_resource type="Script" path="res://script/rune.gd" id="1_gxe72"]
@@ -93,6 +93,34 @@ region = Rect2(192, 256, 32, 32)
 atlas = ExtResource("1_4ejti")
 region = Rect2(224, 256, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6jmlj"]
+atlas = ExtResource("1_4ejti")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgu5h"]
+atlas = ExtResource("1_4ejti")
+region = Rect2(32, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fhdv"]
+atlas = ExtResource("1_4ejti")
+region = Rect2(64, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7lj8y"]
+atlas = ExtResource("1_4ejti")
+region = Rect2(96, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_be6ws"]
+atlas = ExtResource("1_4ejti")
+region = Rect2(128, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcbaw"]
+atlas = ExtResource("1_4ejti")
+region = Rect2(160, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4132"]
+atlas = ExtResource("1_4ejti")
+region = Rect2(192, 128, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_lj2le"]
 animations = [{
 "frames": [{
@@ -175,6 +203,32 @@ animations = [{
 "loop": true,
 "name": &"power_up_damage",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6jmlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgu5h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fhdv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lj8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_be6ws")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcbaw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4132")
+}],
+"loop": true,
+"name": &"shield",
+"speed": 10.0
 }]
 
 [node name="Rune" type="Node2D"]
@@ -187,8 +241,8 @@ shape = SubResource("CircleShape2D_7qrrr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lj2le")
-animation = &"coin"
-frame_progress = 0.455978
+animation = &"shield"
+frame_progress = 0.978808
 metadata/_edit_horizontal_guides_ = [-39.0]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

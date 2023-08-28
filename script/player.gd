@@ -25,13 +25,11 @@ var isSliding = false
 var cannotTurn = false
 var isCrouching = false
 var isCrouchAttack = false
-var isShield = false
-var canShield = true
 var randomAttack = null
 var firstAttack = false
 
 func _physics_process(delta):
-	if isShield:
+	if GLOBAL.SHIELD:
 		shield.visible = true
 	else:
 		shield.visible = false
@@ -132,7 +130,7 @@ func _on_animated_sprite_2d_animation_finished():
 		self.queue_free()
 	
 func hurt_player(area, knockback_multiplier):
-	if !isShield:
+	if !GLOBAL.SHIELD:
 		hurtAudio.play()
 		isHurting = true
 		if !hurtBox.disabled:
@@ -165,7 +163,7 @@ func _on_hurtbox_body_entered(body):
 		
 func handlePlayerInput(direction):
 
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !isAttacking:
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and !isAttacking and !isRolling and !isSliding and !isCrouchAttack:
 		velocity.y = JUMP_VELOCITY
 			
 	if Input.is_action_just_pressed("attack") and is_on_floor() and !isCrouchAttack and !isAttacking and !isSliding and !isRolling:
@@ -205,15 +203,15 @@ func handlePlayerInput(direction):
 	if Input.is_action_just_released("crouch"):
 		isCrouching = false
 		
-	if Input.is_action_just_pressed("shield") and canShield:
-		isShield = true
+	if Input.is_action_just_pressed("shield") and GLOBAL.CAN_SHIELD:
+		GLOBAL.SHIELD = true
 		$ShieldTimer.start()
-		canShield = false
+		GLOBAL.CAN_SHIELD = false
 		await get_tree().create_timer(.5).timeout
-		isShield = false
+		GLOBAL.SHIELD = false
 
 func _on_timer_timeout():
-	canShield = true
+	GLOBAL.CAN_SHIELD = true
 	
 func adjust_sword_collision():
 	if animatedSprite.frame == 2:

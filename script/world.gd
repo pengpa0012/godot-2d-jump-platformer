@@ -40,3 +40,7 @@ func _on_quit_pressed():
 
 func _on_deadzone_body_entered(body):
 	body.queue_free()
+
+
+func _on_rune_timer_timeout():
+	GLOBAL.SHIELD = false

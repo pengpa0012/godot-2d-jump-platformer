@@ -2679,6 +2679,10 @@ stream = ExtResource("14_dkewe")
 stream = ExtResource("11_a6k4m")
 volume_db = 5.0
 
+[node name="RuneTimer" type="Timer" parent="."]
+wait_time = 5.0
+
 [connection signal="pressed" from="CanvasGroup/CanvasLayer2/PauseMenu/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="CanvasGroup/CanvasLayer2/PauseMenu/Resume" to="." method="_on_resume_pressed"]
 [connection signal="body_entered" from="CanvasGroup/CanvasLayer/Deadzone" to="." method="_on_deadzone_body_entered"]
+[connection signal="timeout" from="RuneTimer" to="." method="_on_rune_timer_timeout"]
