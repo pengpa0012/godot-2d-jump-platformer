@@ -12,3 +12,4 @@ var ENEMY_DAMAGE = 2.0
 var RUNE_TYPE = "COIN"
 var SHIELD = false
 var CAN_SHIELD = true
+var CRITICAL = false

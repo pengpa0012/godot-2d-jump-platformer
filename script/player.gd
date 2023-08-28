@@ -34,6 +34,11 @@ func _physics_process(delta):
 	else:
 		shield.visible = false
 	
+	if GLOBAL.CRITICAL:
+		GLOBAL.PLAYER_DAMAGE = 1000.0
+	else:
+		GLOBAL.PLAYER_DAMAGE = 34.0
+	
 	if self.position.x >= display_size.x:
 		self.position.x = 0
 	if self.position.x <= -10:

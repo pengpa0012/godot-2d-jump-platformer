@@ -3,7 +3,8 @@ extends Node2D
 @onready var coinAudio = get_node("/root/world/SFX/coin")
 @onready var powerUpAudio = get_node("/root/world/SFX/power_up")
 @onready var healthAudio = get_node("/root/world/SFX/health")
-@onready var runeTimer = get_node("/root/world/RuneTimer")
+@onready var shieldTimer = get_node("/root/world/Timer/ShieldTimer")
+@onready var criticalTimer = get_node("/root/world/Timer/CriticalTimer")
 
 func _ready():
 	var dropLootProbability = randi_range(0, 10)
@@ -36,9 +37,10 @@ func _on_area_2d_body_entered(body):
 		elif GLOBAL.RUNE_TYPE == "SHIELD":
 			healthAudio.play()			
 			GLOBAL.SHIELD = true	
-			runeTimer.start()
+			shieldTimer.start()
 		else:
 			powerUpAudio.play()
-			GLOBAL.PLAYER_DAMAGE += 30
+			GLOBAL.CRITICAL = true
+			criticalTimer.start()
 		self.queue_free()
 
